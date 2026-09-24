@@ -1,0 +1,6 @@
+ARG POSTGRES_VERSION=14.24-alpine3.23
+FROM postgres:${POSTGRES_VERSION}
+
+RUN rm -rf /var/cache/apk/*
+
+EXPOSE 5432

@@ -1,0 +1,56 @@
+server {
+    listen 80;
+    server_name ${APP_DOMAIN};
+    root /var/www/html/src/public;
+
+    index index.php index.html;
+    charset utf-8;
+
+    client_max_body_size 32M;
+
+    server_tokens off;
+
+    # Opciones de compresión Gzip locales
+    gzip on;
+    gzip_comp_level 5;
+    gzip_min_length 256;
+    gzip_proxied any;
+    gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript image/svg+xml;
+
+    location ~* \.(?:css|js|jpg|jpeg|gif|png|ico|cur|gz|svg|svgz|mp4|ogg|ogv|webm|htc|woff|woff2|ttf)$ {
+        expires 1y;
+        access_log off;
+        add_header Cache-Control "public, no-transform";
+    }
+
+    location /storage/ {
+        alias /var/www/html/src/public/storage/;
+        disable_symlinks off;
+        access_log off;
+        expires 30d;
+        add_header Cache-Control "public";
+    }
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { access_log off; log_not_found off; }
+
+    error_page 404 /index.php;
+
+    location ~ \.php$ {
+        fastcgi_pass ${CONTAINER_APP_NAME}:9000;
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        include fastcgi_params;
+
+        fastcgi_read_timeout 300;
+        fastcgi_connect_timeout 300;
+        fastcgi_send_timeout 300;
+    }
+
+    location ~ /\.(?!well-known).* {
+        deny all;
+    }
+}
