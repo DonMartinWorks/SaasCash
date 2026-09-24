@@ -463,6 +463,164 @@ _Si todo está bien, verás la creación de las tablas predeterminadas de Larave
 
 ---
 
+## ⚡ Instalación Inicial Paso a Paso
+
+### 1. Sincronizar entorno `.env`
+
+Copia la configuración de la raíz a la carpeta de Laravel:
+
+- Windows: `Copy-Item .env src/.env`
+
+- Linux / macOS: `cp .env src/.env`
+
+> 💡 **Nota sobre el archivo `.env`:** El `.env` de la raíz contiene tanto variables de infraestructura (Docker) como de Laravel. Al copiarlo directamente a `src/.env`, Laravel ignorará las variables propias de Docker (como `CONTAINER_PREFIX` o `PHP_VERSION`). Esto **no afecta el funcionamiento ni genera errores**, pero si prefieres un archivo más limpio dentro de la app, puedes borrar esas variables de `src/.env` y conservar solo la sección del proyecto Laravel.
+
+### 2. Levantar la infraestructura
+
+- Para desarrollar con PostgreSQL:
+
+```cmd
+  docker compose up -d
+```
+
+### 3. Ajustes de permisos y clave
+
+#### Alias recomendado
+
+```cmd
+  # Crear un alias temporal en la terminal para no escribir tanto:
+  alias art="docker compose exec app php artisan"
+
+  # Ejemplo de uso:
+  art migrate
+  art make:controller TestController
+```
+
+> 💡 Puedes usar el alias para abreviar los comandos
+
+```bash
+# Generar App Key
+docker compose exec app php artisan key:generate
+
+# Correr migraciones iniciales
+docker compose exec app php artisan migrate
+```
+
+```bash
+# En caso de tener registros corruptos guardados como '0', limpiar la BD
+docker compose exec app php artisan migrate:fresh
+```
+
+```bash
+# Limpiar el storage de las imágenes huérfanas (Sin listado asignado):
+docker compose exec app php artisan storage:clean-orphans
+```
+
+> `Otorgar permisos de escritura`: Evitar errores 500 y solucionar que las imágenes se guarden como '0' (false)
+
+```bash
+docker compose exec app chmod -R 777 storage bootstrap/cache
+```
+
+## 🛠️ Comandos de Uso Frecuente
+
+_Códigos genéricos que podrían ser útiles._
+
+- Artisan
+
+```bash
+  docker compose exec app php artisan migrate
+  docker compose exec app php artisan migrate:fresh --seed
+  docker compose exec app php artisan make:model Post -mcr
+```
+
+- Composer
+
+```bash
+  docker compose exec app composer require laravel/breeze
+```
+
+- NPM / Frontend
+
+```bash
+  docker compose exec node npm install
+  docker compose exec node npm install -D tailwindcss
+  docker compose exec node npm run build
+  docker compose exec node npm run fix:eslint
+```
+
+- Reiniciar Vite
+
+```bash
+  docker compose restart vite
+```
+
+### Optimización de Autoload (Composer)
+
+> Reconstruye el mapa de clases de Composer dentro del contenedor sin ejecutar `php`
+> explícitamente como argumento.
+
+```bash
+docker compose exec app composer dump-autoload
+```
+
+#### ¿Para qué sirve este comando?
+
+- **Actualizar el mapa de clases (Class Map):** Si agregas manualmente nuevas clases,
+  interfaces, _traits_, o creas archivos dentro de `app/`, `database/seeders/` o
+  `database/factories/` que no son detectados automáticamente por el _autoloader_ PSR-4.
+
+- **Resolver errores de clase no encontrada (`Class not found`):** Fuerza a Composer a
+  reesccanear todo el árbol del proyecto en `src/` para registrar cualquier archivo
+  recién creado.
+- **Optimización en Producción (`--optimize` / `-o`):** Convierte las reglas PSR-0/
+  PSR-4 en un mapa plano (_classmap_) de alto rendimiento para acelerar la carga de la
+  aplicación.
+
+#### Ejemplos de uso según el entorno
+
+```bash
+# Regeneración estándar del autoloader (Desarrollo)
+docker compose exec app composer dump-autoload
+
+# Modo optimizado (Rendimiento superior / Pruebas)
+docker compose exec app composer dump-autoload -o
+```
+
+### Comandos útiles según el tipo de reinicio que necesites
+
+- Reinicio rápido de todos los contenedores:
+
+```bash
+  docker compose restart
+```
+
+- Reinicio forzado (destruye los contenedores y los vuelve a levantar):
+
+```bash
+  docker compose down && docker compose up -d
+```
+
+- Reinicio aplicando cambios en el `docker-compose.yml` o **eliminando huérfanos**
+
+```bash
+  docker compose up -d --force-recreate --remove-orphans
+```
+
+- Reiniciar un solo servicio (por ejemplo, `vite` o `app`)
+
+```bash
+  docker compose restart vite
+```
+
+### IDE Helper Generator
+
+> Ejecuta esto para añadir phpdocs a tus modelos
+
+```bash
+  docker compose exec app php artisan ide-helper:models -RW
+```
+
 ## 🧹 Mantenimiento y Limpieza
 
 > ⚠️ **Nota:** Ejecuta estos comandos desde la carpeta raíz del proyecto (donde reside el archivo `docker-compose.yml`, no en **src**). ⚠️
@@ -611,10 +769,6 @@ Si deseas ejecutar tus tests de forma paralela para reducir el tiempo de ejecuci
 ```bash
 docker compose exec app ./vendor/bin/pest --parallel
 ```
-
-# Real Estate Platform (Zillow Clone)
-
-Esta es una aplicación web de bienes raíces desarrollada con **PHP Laravel**, diseñada para publicar, buscar y gestionar propiedades inmobiliarias (venta y alquiler), conectar agentes con clientes y explorar inmuebles de forma interactiva.
 
 ---
 
