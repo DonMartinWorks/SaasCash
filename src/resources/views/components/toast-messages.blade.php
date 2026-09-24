@@ -1,0 +1,1 @@
+<x-alert class="my-10 mx-4 text-center" />
