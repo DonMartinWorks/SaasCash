@@ -1,0 +1,16 @@
+# Docker & OS
+.env
+.DS_Store
+Thumbs.db
+
+# .env
+.env
+.env.backup
+.env.production
+
+# Laravel (dentro de src)
+src/.env
+src/vendor/
+src/node_modules/
+src/public/storage
+src/storage/*.key

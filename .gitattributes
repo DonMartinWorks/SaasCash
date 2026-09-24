@@ -1,0 +1,2 @@
+# Forzar a Git a usar saltos de línea LF para scripts de shell siempre
+*.sh text eol=lf
