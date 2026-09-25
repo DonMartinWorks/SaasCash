@@ -25,34 +25,12 @@
             @endif
 
             @else
-
-            @if (Route::has('dashboard'))
-            <a href="{{ route('dashboard') }}"
-                class="text-white transition-all font-bold capitalize p-2 hover:underline hover:underline-offset-4 duration-200 hover:decoration-amber-500">
+            <p class="text-white text-xl font-semibold underline underline-offset-4 decoration-amber-500 decoration-2">
                 {{ Auth::user()->name }}
-            </a>
-            @endif
+            </p>
 
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="inline"
-                onsubmit="return confirmLogout(event)">
-                @csrf
-                <button type="submit"
-                    class="font-bold cursor-pointer uppercase border-2 border-amber-500 px-5 py-2 text-amber-500 hover:bg-amber-500 hover:text-purple-950 transition-colors duration-200">
-                    Cerrar Sesión
-                </button>
-            </form>
-
+            <x-dropdown-menu />
             @endguest
         </nav>
     </div>
 </header>
-
-<script>
-    function confirmLogout(event) {
-        if (!confirm('¿Estás seguro de que deseas cerrar sesión?')) {
-            event.preventDefault();
-            return false;
-        }
-        return true;
-    }
-</script>
