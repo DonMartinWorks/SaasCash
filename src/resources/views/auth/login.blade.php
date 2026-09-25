@@ -1,7 +1,7 @@
 @extends("layouts.auth")
 
 @section('title')
-Registrarme
+Iniciar Sesión
 @endsection
 
 @section('auth-contents')
