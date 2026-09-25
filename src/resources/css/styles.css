@@ -10,9 +10,6 @@
     @apply bg-purple-900 hover:bg-purple-800 w-full p-3 rounded-lg text-white font-bold text-xl cursor-pointer transition-colors;
 }
 
-@utility remember-checkbox {
-    @apply h-5 w-5 rounded border-gray-300 text-purple-950 focus:ring-purple-800 cursor-pointer;
-}
 
 @utility input-error {
     @apply text-xs font-semibold text-red-600 mt-1;

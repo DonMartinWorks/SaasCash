@@ -10,11 +10,11 @@ Listado de los usuarios **POR DEFECTO** `@laravel.com` es el nombre de la app: *
 
 ### Panel Inicio de sesión (`/login`) (**Datos por defecto**)
 
-| Campo          | Nombre               | Nombre                | Nombre                |
-| :------------- | :------------------- | :-------------------- | :-------------------- |
-| **Nombre**     | Usuario Normal       | Usuario Segundo       | Usuario Tercero       |
-| **Email**      | `normal@laravel.com` | `segundo@laravel.com` | `tercero@laravel.com` |
-| **Contraseña** | `1234`               | `1234`                | `1234`                |
+| Campo          | Nombre            | Nombre            | Nombre                | Nombre               |
+| :------------- | :---------------- | :---------------- | :-------------------- | :------------------- |
+| **Nombre**     | Usuario Uno       | Usuario Dos       | Usuario Tres          | Usuario Cuatro       |
+| **Email**      | `uno@laravel.com` | `dos@laravel.com` | `tercero@laravel.com` | `Cuatro@laravel.com` |
+| **Contraseña** | `1234`            | `1234`            | `1234`                | `1234`               |
 
 ## ⚙️ Variables de Entorno (`.env` Raíz)
 
@@ -402,9 +402,6 @@ Mi Cuenta GitHub: [https://github.com/DonMartinWorks](https://github.com/DonMart
 | **pgAdmin 4 (PostgreSQL)**     | `http://localhost:8080` | Usuario: `admin@db.com` \| Clave: `root_password`                                          |
 | **Clientes GUI de Escritorio** | `localhost:5432`        | Acceso directo a DB desde DBeaver / TablePlus (Host: `localhost`, Usuario: `laravel_user`) |
 | **Mailpit UI**                 | `http://localhost:8025` | Interfaz Web para interceptar correos de prueba locales                                    |
-| **Redis DB**                   | `localhost:6379`        | Gestor de mensajes para colas `(Host interno: redis)`                                      |
-| **Queue Worker**               | `(Segundo Plano)`       | Procesador de trabajos asíncronos `(docker compose logs -f worker)`                        |
-| **Scheduler (Cron)**           | `(Segundo Plano)`       | Automatiza tareas programadas como `storage:clean-orphans`                                 |
 
 ### pgAdmin
 
