@@ -808,6 +808,12 @@ clean:
 	@echo "Eliminando contenedores, volúmenes e imágenes de este proyecto..."
 	docker compose down -v --rmi local
 
+permission:
+	@echo "Asignando propiedad y permisos al código fuente..."
+	sudo chown -R $$USER:$$USER src/
+	docker compose exec app chown -R www-data:www-data storage bootstrap/cache
+	docker compose exec app chmod -R 775 storage bootstrap/cache
+
 destroy:
 	@echo "¡ADVERTENCIA! Eliminando absolutamente todo el sistema Docker local..."
 	docker compose down -v --rmi all
@@ -843,6 +849,14 @@ Para detener y borrar los contenedores, volúmenes e imágenes generadas exclusi
 make clean
 ```
 
+### Uso `permission`
+
+Para refrescar los permisos de escritura y propiedad de la carpeta `src/` y las carpetas `storage` y `bootstrap/cache` dentro del contenedor:
+
+```bash
+make permission
+```
+
 ### Uso `destroy` (⚠️ Precaución)
 
 Para eliminar todo el sistema Docker local (imágenes, volúmenes y caché de Docker de la máquina, incluyendo otros proyectos):
@@ -855,72 +869,9 @@ make destroy
 
 > Si borraste las imágenes/contenedores previamente o es la primera vez que levantas el proyecto, Docker tardará unos minutos en descargar e inicializar las imágenes. Si las migraciones fallan por tiempo de espera de la base de datos en el primer intento, simplemente vuelve a ejecutar `make setup`.
 
-# Real Estate Platform (SaasCash Clone)
-
-Esta es una aplicación web de bienes raíces desarrollada con **PHP Laravel**, diseñada para publicar, buscar y gestionar propiedades inmobiliarias (venta y alquiler), conectar agentes con clientes y explorar inmuebles de forma interactiva.
-
 ---
 
-## ⚡ Instalación Inicial Paso a Paso
-
-### 1. Sincronizar entorno `.env`
-
-Copia la configuración de la raíz a la carpeta de Laravel:
-
-- Windows: `Copy-Item .env src/.env`
-
-- Linux / macOS: `cp .env src/.env`
-
-> 💡 **Nota sobre el archivo `.env`:** El `.env` de la raíz contiene tanto variables de infraestructura (Docker) como de Laravel. Al copiarlo directamente a `src/.env`, Laravel ignorará las variables propias de Docker (como `CONTAINER_PREFIX` o `PHP_VERSION`). Esto **no afecta el funcionamiento ni genera errores**, pero si prefieres un archivo más limpio dentro de la app, puedes borrar esas variables de `src/.env` y conservar solo la sección del proyecto Laravel.
-
-### 2. Levantar la infraestructura
-
-- Para desarrollar con PostgreSQL:
-
-```cmd
-  docker compose up -d
-```
-
-### 3. Ajustes de permisos y clave
-
-#### Alias recomendado
-
-```cmd
-  # Crear un alias temporal en la terminal para no escribir tanto:
-  alias art="docker compose exec app php artisan"
-
-  # Ejemplo de uso:
-  art migrate
-  art make:controller TestController
-```
-
-> 💡 Puedes usar el alias para abreviar los comandos
-
-```bash
-# Generar App Key
-docker compose exec app php artisan key:generate
-
-# Correr migraciones iniciales
-docker compose exec app php artisan migrate
-```
-
-```bash
-# En caso de tener registros corruptos guardados como '0', limpiar la BD
-docker compose exec app php artisan migrate:fresh
-```
-
-```bash
-# Limpiar el storage de las imágenes huérfanas (Sin listado asignado):
-docker compose exec app php artisan storage:clean-orphans
-```
-
-> `Otorgar permisos de escritura`: Evitar errores 500 y solucionar que las imágenes se guarden como '0' (false)
-
-```bash
-docker compose exec app chmod -R 777 storage bootstrap/cache
-```
-
-## 🛠️ Comandos de Uso Frecuente
+## 🛠️ Otros Comandos de Uso Frecuente
 
 _Códigos genéricos que podrían ser útiles._
 
@@ -951,72 +902,6 @@ _Códigos genéricos que podrían ser útiles._
 
 ```bash
   docker compose restart vite
-```
-
-### Optimización de Autoload (Composer)
-
-> Reconstruye el mapa de clases de Composer dentro del contenedor sin ejecutar `php`
-> explícitamente como argumento.
-
-```bash
-docker compose exec app composer dump-autoload
-```
-
-#### ¿Para qué sirve este comando?
-
-- **Actualizar el mapa de clases (Class Map):** Si agregas manualmente nuevas clases,
-  interfaces, _traits_, o creas archivos dentro de `app/`, `database/seeders/` o
-  `database/factories/` que no son detectados automáticamente por el _autoloader_ PSR-4.
-
-- **Resolver errores de clase no encontrada (`Class not found`):** Fuerza a Composer a
-  reesccanear todo el árbol del proyecto en `src/` para registrar cualquier archivo
-  recién creado.
-- **Optimización en Producción (`--optimize` / `-o`):** Convierte las reglas PSR-0/
-  PSR-4 en un mapa plano (_classmap_) de alto rendimiento para acelerar la carga de la
-  aplicación.
-
-#### Ejemplos de uso según el entorno
-
-```bash
-# Regeneración estándar del autoloader (Desarrollo)
-docker compose exec app composer dump-autoload
-
-# Modo optimizado (Rendimiento superior / Pruebas)
-docker compose exec app composer dump-autoload -o
-```
-
-### Comandos útiles según el tipo de reinicio que necesites
-
-- Reinicio rápido de todos los contenedores:
-
-```bash
-  docker compose restart
-```
-
-- Reinicio forzado (destruye los contenedores y los vuelve a levantar):
-
-```bash
-  docker compose down && docker compose up -d
-```
-
-- Reinicio aplicando cambios en el `docker-compose.yml` o **eliminando huérfanos**
-
-```bash
-  docker compose up -d --force-recreate --remove-orphans
-```
-
-- Reiniciar un solo servicio (por ejemplo, `vite` o `app`)
-
-```bash
-  docker compose restart vite
-```
-
-### IDE Helper Generator
-
-> Ejecuta esto para añadir phpdocs a tus modelos
-
-```bash
-  docker compose exec app php artisan ide-helper:models -RW
 ```
 
 ## Posibles Errores

@@ -30,7 +30,8 @@ Iniciar Sesión
     </div>
 
     <!-- Remember me & Password Reset -->
-    <div class="flex items-start flex-wrap gap-2">
+    <div
+        class="flex items-start flex-wrap gap-2 bg-neutral-50 px-4 py-2.5 rounded-md border border-neutral-200 shadow-lg">
         <label class="flex items-center group has-[input:checked]:text-neutral-900 cursor-pointer">
             <input id="remember" name="remember" type="checkbox" {{ old('remember') ? 'checked' : '' }} tabindex="3"
                 class="sr-only" />
@@ -55,7 +56,7 @@ Iniciar Sesión
 
         @if (Route::has('password.request'))
         <a href="{{ route('password.request') }}" tabindex="4"
-            class="ml-auto transition-all text-sm font-semibold text-neutral-400 hover:underline hover:underline-offset-2 hover:text-amber-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 rounded">
+            class="ml-auto transition-all text-sm font-semibold text-neutral-500 hover:underline hover:underline-offset-2 hover:text-amber-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 rounded">
             ¿Olvidaste tu Contraseña?
         </a>
         @endif

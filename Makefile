@@ -22,6 +22,12 @@ clean:
 	@echo "Eliminando contenedores, volúmenes e imágenes de este proyecto..."
 	docker compose down -v --rmi local
 
+permission:
+	@echo "Asignando propiedad y permisos al código fuente..."
+	sudo chown -R $$USER:$$USER src/
+	docker compose exec app chown -R www-data:www-data storage bootstrap/cache
+	docker compose exec app chmod -R 775 storage bootstrap/cache
+
 destroy:
 	@echo "¡ADVERTENCIA! Eliminando absolutamente todo el sistema Docker local..."
 	docker compose down -v --rmi all
