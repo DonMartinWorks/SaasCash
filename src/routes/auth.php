@@ -62,6 +62,6 @@ Route::middleware('auth')->group(function () {
     |--------------------------------------------------------------------------
     */
     Route::middleware('verified')->group(function () {
-        require __DIR__ . '/resources.php';
+        //
     });
 });

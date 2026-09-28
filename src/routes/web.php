@@ -7,3 +7,4 @@ Route::get('/', function () {
 })->name('home');
 
 require __DIR__ . '/auth.php';
+require __DIR__ . '/resources.php';

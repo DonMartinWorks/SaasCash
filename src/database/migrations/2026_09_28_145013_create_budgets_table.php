@@ -1,5 +1,6 @@
 <?php
 
+use App\enums\BudgetType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,7 +17,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->decimal('amount', 10, 2);
-            $table->enum('type', ['general', 'goal'])->default('general'); // TODO: make a enum class 'EnumType'
+            $table->enum('type', BudgetType::class)->default(BudgetType::General->value);
             $table->timestamps();
         });
     }
