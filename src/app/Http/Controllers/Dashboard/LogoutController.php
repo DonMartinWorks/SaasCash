@@ -7,16 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
-class DashboardController extends Controller
+class LogoutController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index(): View
-    {
-        return view('dashboard.index');
-    }
-
     /**
      * Remove the specified resource from storage.
      */

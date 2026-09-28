@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Dashboard\LogoutController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -28,7 +28,7 @@ Route::middleware('guest')->group(function () {
 */
 Route::middleware('auth')->group(function () {
 
-    Route::post('/logout', [DashboardController::class, 'destroy'])->name('logout');
+    Route::post('/logout', [LogoutController::class, 'destroy'])->name('logout');
 
     Route::get('/email/verify', function (Request $request) {
         return $request->user()->hasVerifiedEmail()
@@ -62,6 +62,6 @@ Route::middleware('auth')->group(function () {
     |--------------------------------------------------------------------------
     */
     Route::middleware('verified')->group(function () {
-        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        require __DIR__ . '/resources.php';
     });
 });
