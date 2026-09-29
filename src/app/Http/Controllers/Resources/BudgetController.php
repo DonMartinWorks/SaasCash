@@ -20,7 +20,11 @@ class BudgetController extends Controller
      */
     public function index(): View
     {
-        return view('dashboard.index');
+        $budgets = Auth::user()->budgets()->get();
+
+        return view('dashboard.index', [
+            'budgets' => $budgets
+        ]);
     }
 
     /**
@@ -36,8 +40,6 @@ class BudgetController extends Controller
      */
     public function store(BudgetRequest $request): RedirectResponse
     {
-        $validated = $request->validated();
-
         $budget = Auth::user()->budgets()->create($request->validated());
 
         return redirect()->route('dashboard')->with('success', 'Presupuesto creado exitosamente');
