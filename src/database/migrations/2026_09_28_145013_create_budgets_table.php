@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->decimal('amount', 10, 2);
-            $table->enum('type', BudgetType::class)->default(BudgetType::General->value);
+            $table->enum('type', array_column(BudgetType::cases(), 'value'))->default(BudgetType::General->value);
             $table->timestamps();
         });
     }
