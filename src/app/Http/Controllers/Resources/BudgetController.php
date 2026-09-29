@@ -7,6 +7,7 @@ use App\Http\Requests\BudgetRequest;
 use App\Models\Budget;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Attributes\Controllers\Authorize;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
@@ -56,17 +57,23 @@ class BudgetController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Budget $budget)
+    #[Authorize('update','budget')]
+    public function edit(Budget $budget): View
     {
-        //
+        return view('resources.budget.edit', [
+            'budget' => $budget
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Budget $budget)
+    #[Authorize('update','budget')]
+    public function update(BudgetRequest $request, Budget $budget)
     {
-        //
+        $budget->update($request->validated());
+
+        return redirect()->route('dashboard')->with('success', 'Presupuesto actualizado exitosamente');;
     }
 
     /**

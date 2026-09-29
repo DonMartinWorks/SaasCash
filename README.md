@@ -904,10 +904,18 @@ _Códigos genéricos que podrían ser útiles._
   docker compose restart vite
 ```
 
-## Posibles Errores
+## Posibles Errores y otros comandos
 
 1. Error: SQLSTATE[42P01]: Undefined table: 7 ERROR: relation "sessions" does not exist LINE 1: select _ from "sessions" where "id" = $1 limit 1 ^ (Connection: pgsql, Host: db_postgres, Port: 5432, Database: laravel_db, SQL: select _ from "sessions" where "id" = data limit 1)
 
 ```cmd
   docker compose exec app php artisan migrate:fresh --seed
+```
+
+---
+
+2. Limpiar toda la cache de la app
+
+```cmd
+  docker compose exec app php artisan o:c
 ```
