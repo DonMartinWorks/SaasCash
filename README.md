@@ -282,7 +282,7 @@ cd ~/proyectos/SaasCash
 code .
 ```
 
-3. VS Code abrirá conectado de forma nativa a `Ubuntu` (verás la etiqueta azul/verde `WSL: Ubuntu` en la esquina inferior izquierda)
+1. VS Code abrirá conectado de forma nativa a `Ubuntu` (verás la etiqueta azul/verde `WSL: Ubuntu` en la esquina inferior izquierda)
 
 **💡 Tip para el Explorador de Archivos de Windows:**
 
@@ -412,7 +412,7 @@ Mi Cuenta GitHub: [https://github.com/DonMartinWorks](https://github.com/DonMart
 
 | Valor    | Credencial por defecto `.env`         |
 | :------- | :------------------------------------ |
-| Email    | `DB_USER_PASSWORD`: **admin@db.com**  |
+| Email    | `DB_USER_PASSWORD`: **<admin@db.com>**  |
 | Password | `DB_ROOT_PASSWORD`: **root_password** |
 
 #### PASO 2: Registrar y Conectar el Servidor de `PostgreSQL`
@@ -434,7 +434,7 @@ Mi Cuenta GitHub: [https://github.com/DonMartinWorks](https://github.com/DonMart
 | Password             | `Secret_Password123!`     | Valor de `${DB_PASSWORD}` de tu `.env`.                                                                                                         |
 | Save password?       | `Marca la casilla`        | `OPCIONAL`: Para evitar que te pida la clave cada vez que entres a pgAdmin.                                                                     |
 
-4. Haz clic en `Save`.
+1. Haz clic en `Save`.
 
 #### PASO 3: Crear la Base de Datos
 
@@ -649,7 +649,7 @@ docker compose exec app composer dump-autoload -o
   docker system prune -a --volumes -f
 ```
 
-2. Si estás fuera de la carpeta o quieres ser 100% específico
+1. Si estás fuera de la carpeta o quieres ser 100% específico
 
 _Si no estás ubicado dentro de la carpeta del proyecto o quieres asegurarte desde cualquier lugar de la consola de no tocar otra cosa, puedes pasar el flag `-p` **(nombre del proyecto)** o `-f` **(ruta del archivo)**:_
 
@@ -675,6 +675,7 @@ Este proyecto utiliza [Pest PHP](https://pestphp.com/) como framework de pruebas
 | :--------------------------------- | :------------------------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **`LoginUserTest.php`**            | Flujos de inicio y cierre de sesión.                                | Formulario de login, autenticación exitosa, opción "Recordarme", logout y credenciales inválidas.                                                                                                                                                                                           |
 | **`RegisterUserTest.php`**         | Alta de usuario y flujo de verificación.                            | Formulario de registro, validación de campos, alta de usuario no verificado, eventos, correos y enlace firmado.                                                                                                                                                                             |
+| **`DashboardTest.php`**    | Protección de rutas y control de acceso (Middlewares). | Bloqueo a invitados (`guest`), redirección de usuarios no verificados y acceso a usuarios autenticados/verificados. |
 | **`Budgets/DashboardTest.php`**    | Vista principal de presupuestos y aislamiento de datos por usuario. | Muestra de estado vacío cuando no existen registros, renderizado correcto del listado de presupuestos y filtrado estricto/aislamiento de datos para mostrar solo los presupuestos del usuario autenticado.                                                                                  |
 | **`Budgets/CreateBudgetTest.php`** | Creación de presupuestos, reglas de validación y control de acceso. | Validación de campos obligatorios (nombre, monto, tipo), restricción a usuarios invitados (`guest`) y no verificados, asignación del presupuesto al usuario autenticado, validación de monto positivo (>0), restricción de tipos de presupuesto válidos y redirección con mensaje de éxito. |
 
@@ -786,40 +787,40 @@ docker compose exec app ./vendor/bin/pest --parallel
 
 ```makefile
 setup:
-	@echo "1. Levantando contenedores..."
-	docker compose up -d
-	@echo "2. Esperando a que la base de datos y los servicios inicien... (40 segundos de espera)"
-	sleep 40
-	@echo "3. Ejecutando migraciones y seeders..."
-	docker compose exec app php artisan migrate:fresh --seed
-	@echo "4. Asignando propiedad local al código fuente..."
-	sudo chown -R $$USER:$$USER src/
-	@echo "5. Asignando permisos a storage y bootstrap/cache dentro del contenedor..."
-	docker compose exec app chown -R www-data:www-data storage bootstrap/cache
-	docker compose exec app chmod -R 775 storage bootstrap/cache
-	@echo "6. Limpiando caché de vistas compiladas..."
-	docker compose exec app php artisan view:clear
-	@echo "Configuración completada con éxito"
+ @echo "1. Levantando contenedores..."
+ docker compose up -d
+ @echo "2. Esperando a que la base de datos y los servicios inicien... (40 segundos de espera)"
+ sleep 40
+ @echo "3. Ejecutando migraciones y seeders..."
+ docker compose exec app php artisan migrate:fresh --seed
+ @echo "4. Asignando propiedad local al código fuente..."
+ sudo chown -R $$USER:$$USER src/
+ @echo "5. Asignando permisos a storage y bootstrap/cache dentro del contenedor..."
+ docker compose exec app chown -R www-data:www-data storage bootstrap/cache
+ docker compose exec app chmod -R 775 storage bootstrap/cache
+ @echo "6. Limpiando caché de vistas compiladas..."
+ docker compose exec app php artisan view:clear
+ @echo "Configuración completada con éxito"
 
 stop:
-	@echo "Deteniendo contenedores..."
-	docker compose down
+ @echo "Deteniendo contenedores..."
+ docker compose down
 
 clean:
-	@echo "Eliminando contenedores, volúmenes e imágenes de este proyecto..."
-	docker compose down -v --rmi local
+ @echo "Eliminando contenedores, volúmenes e imágenes de este proyecto..."
+ docker compose down -v --rmi local
 
 permission:
-	@echo "Asignando propiedad y permisos al código fuente..."
-	sudo chown -R $$USER:$$USER src/
-	docker compose exec app chown -R www-data:www-data storage bootstrap/cache
-	docker compose exec app chmod -R 775 storage bootstrap/cache
+ @echo "Asignando propiedad y permisos al código fuente..."
+ sudo chown -R $$USER:$$USER src/
+ docker compose exec app chown -R www-data:www-data storage bootstrap/cache
+ docker compose exec app chmod -R 775 storage bootstrap/cache
 
 destroy:
-	@echo "¡ADVERTENCIA! Eliminando absolutamente todo el sistema Docker local..."
-	docker compose down -v --rmi all
-	docker system prune -a --volumes -f
-	docker builder prune -a -f
+ @echo "¡ADVERTENCIA! Eliminando absolutamente todo el sistema Docker local..."
+ docker compose down -v --rmi all
+ docker system prune -a --volumes -f
+ docker builder prune -a -f
 ```
 
 ### Uso `setup`
@@ -907,7 +908,7 @@ _Códigos genéricos que podrían ser útiles._
 
 ## Posibles Errores y otros comandos
 
-1. Error: SQLSTATE[42P01]: Undefined table: 7 ERROR: relation "sessions" does not exist LINE 1: select _ from "sessions" where "id" = $1 limit 1 ^ (Connection: pgsql, Host: db_postgres, Port: 5432, Database: laravel_db, SQL: select _ from "sessions" where "id" = data limit 1)
+1. Error: SQLSTATE[42P01]: Undefined table: 7 ERROR: relation "sessions" does not exist LINE 1: select _from "sessions" where "id" = $1 limit 1 ^ (Connection: pgsql, Host: db_postgres, Port: 5432, Database: laravel_db, SQL: select_ from "sessions" where "id" = data limit 1)
 
 ```cmd
   docker compose exec app php artisan migrate:fresh --seed
@@ -915,7 +916,7 @@ _Códigos genéricos que podrían ser útiles._
 
 ---
 
-2. Limpiar toda la cache de la app
+1. Limpiar toda la cache de la app
 
 ```cmd
   docker compose exec app php artisan o:c
