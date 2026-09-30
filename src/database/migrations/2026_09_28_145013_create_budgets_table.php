@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->decimal('amount', 10, 2);
             $table->enum('type', array_column(BudgetType::cases(), 'value'))->default(BudgetType::General->value);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

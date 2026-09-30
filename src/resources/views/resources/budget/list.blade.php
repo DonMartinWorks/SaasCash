@@ -30,6 +30,11 @@
                             </td>
                             <td class="py-6 px-10 flex justify-end gap-3">
                                 <x-budget-dropdown :budget="$budget" />
+
+                                <x-confirm-delete :id="'delete-dialog-'.$budget->id"
+                                    :title="'Eliminar presupuesto: '.$budget->name"
+                                    :message="'Esta acción es irreversible, vas a eliminar: '.$budget->name.' con el valor de $'.$budget->amount"
+                                    :action="route('budgets.destroy', $budget)" />
                             </td>
                         </tr>
                         @empty

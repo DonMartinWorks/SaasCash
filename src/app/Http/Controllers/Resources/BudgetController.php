@@ -10,7 +10,9 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Attributes\Controllers\Authorize;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
+use Throwable;
 
 #[Middleware('auth')]
 #[Middleware('verified')]
@@ -57,7 +59,7 @@ class BudgetController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    #[Authorize('update','budget')]
+    #[Authorize('update', 'budget')]
     public function edit(Budget $budget): View
     {
         return view('resources.budget.edit', [
@@ -68,7 +70,7 @@ class BudgetController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    #[Authorize('update','budget')]
+    #[Authorize('update', 'budget')]
     public function update(BudgetRequest $request, Budget $budget)
     {
         $budget->update($request->validated());
@@ -79,8 +81,24 @@ class BudgetController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Budget $budget)
+    #[Authorize('delete', 'budget')]
+    public function destroy(Budget $budget): RedirectResponse
     {
-        //
+        try {
+            $budget->delete();
+
+            return redirect()
+                ->route('dashboard')
+                ->with('success', 'Presupuesto eliminado exitosamente.');
+        } catch (Throwable $e) {
+            Log::error('Error al eliminar el presupuesto: ' . $e->getMessage(), [
+                'budget_id' => $budget->id,
+                'exception' => $e
+            ]);
+
+            return redirect()
+                ->back()
+                ->with('error', 'Ocurrió un error al intentar eliminar el presupuesto. Inténtalo de nuevo más tarde.');
+        }
     }
 }
