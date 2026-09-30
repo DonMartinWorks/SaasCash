@@ -671,11 +671,12 @@ Este proyecto utiliza [Pest PHP](https://pestphp.com/) como framework de pruebas
 
 ### 📐 Organización de la Suite de Pruebas
 
-| Archivo de Test            | Responsabilidad Principal                              | Cobertura de Casos                                                                                                  |
-| :------------------------- | :----------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------ |
-| **`LoginUserTest.php`**    | Flujos de inicio y cierre de sesión.                   | Formulario de login, autenticación exitosa, opción "Recordarme", logout y credenciales inválidas.                   |
-| **`RegisterUserTest.php`** | Alta de usuario y flujo de verificación.               | Formulario de registro, validación de campos, alta de usuario no verificado, eventos, correos y enlace firmado.     |
-| **`DashboardTest.php`**    | Protección de rutas y control de acceso (Middlewares). | Bloqueo a invitados (`guest`), redirección de usuarios no verificados y acceso a usuarios autenticados/verificados. |
+| Archivo de Test                    | Responsabilidad Principal                                           | Cobertura de Casos                                                                                                                                                                                                                                                                          |
+| :--------------------------------- | :------------------------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **`LoginUserTest.php`**            | Flujos de inicio y cierre de sesión.                                | Formulario de login, autenticación exitosa, opción "Recordarme", logout y credenciales inválidas.                                                                                                                                                                                           |
+| **`RegisterUserTest.php`**         | Alta de usuario y flujo de verificación.                            | Formulario de registro, validación de campos, alta de usuario no verificado, eventos, correos y enlace firmado.                                                                                                                                                                             |
+| **`Budgets/DashboardTest.php`**    | Vista principal de presupuestos y aislamiento de datos por usuario. | Muestra de estado vacío cuando no existen registros, renderizado correcto del listado de presupuestos y filtrado estricto/aislamiento de datos para mostrar solo los presupuestos del usuario autenticado.                                                                                  |
+| **`Budgets/CreateBudgetTest.php`** | Creación de presupuestos, reglas de validación y control de acceso. | Validación de campos obligatorios (nombre, monto, tipo), restricción a usuarios invitados (`guest`) y no verificados, asignación del presupuesto al usuario autenticado, validación de monto positivo (>0), restricción de tipos de presupuesto válidos y redirección con mensaje de éxito. |
 
 ---
 
