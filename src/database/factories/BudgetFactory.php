@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\enums\BudgetType;
 use App\Models\Budget;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -18,7 +19,9 @@ class BudgetFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->words(2, true),
+            'amount' => fake()->numberBetween(1000, 50000),
+            'type' => fake()->randomElement(['general', 'goal'])
         ];
     }
 }
