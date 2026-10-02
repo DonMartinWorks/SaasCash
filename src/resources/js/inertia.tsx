@@ -1,12 +1,18 @@
 /// <reference types="vite/client" />
+import { createRoot } from 'react-dom/client'
 import { createInertiaApp } from '@inertiajs/react'
+import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
+import { route as ziggyRoute } from 'ziggy-js'
 
 const appName = import.meta.env.VITE_APP_NAME || 'CashTrackr'
 
 createInertiaApp({
     title: title => `${title} - ${appName}`,
-    pages: {
-        path: './Pages',
-        extension: '.tsx',
+    resolve: (name) => resolvePageComponent(`./Pages/${name}.tsx`, import.meta.glob('./Pages/**/*.tsx')),
+    setup({ el, App, props }) {
+        (window as any).route = ziggyRoute
+
+        const root = createRoot(el)
+        root.render(<App {...props} />)
     },
 });
