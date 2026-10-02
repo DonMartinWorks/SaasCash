@@ -75,7 +75,7 @@ it('does not allow other users to delete budgets', function () {
 
     $response->assertForbidden();
     $response->assertStatus(403);
-    $response->assertSee('No tienes los permisos para eliminar esta presupuesto.');
+    $response->assertSee('No tienes los permisos para eliminar este presupuesto.');
 
     $this->assertDatabaseHas('budgets', [
         'id' => $budget->id,

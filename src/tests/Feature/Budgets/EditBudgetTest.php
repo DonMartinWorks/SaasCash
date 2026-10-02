@@ -49,5 +49,5 @@ it('does not allow other users to view the edit budget form', function () {
 
     $response->assertForbidden();
     $response->assertStatus(403);
-    $response->assertSee('No tienes los permisos para editar esta presupuesto.');
+    $response->assertSee('No tienes los permisos para editar este presupuesto.');
 });
