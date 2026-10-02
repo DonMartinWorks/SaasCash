@@ -1,32 +1,38 @@
-import { defineConfig } from 'vite';
-import laravel from 'laravel-vite-plugin';
-import { bunny } from 'laravel-vite-plugin/fonts';
-import tailwindcss from '@tailwindcss/vite';
+import { defineConfig } from "vite";
+import laravel from "laravel-vite-plugin";
+import { bunny } from "laravel-vite-plugin/fonts";
+import tailwindcss from "@tailwindcss/vite";
+import react from "@vitejs/plugin-react";
+import inertia from "@inertiajs/vite";
 
 export default defineConfig({
     plugins: [
         laravel({
-            input: ['resources/css/app.css', 'resources/js/app.js'],
+            input: ["resources/css/app.css", "resources/js/app.js"],
             refresh: true,
             fonts: [
-                bunny('Instrument Sans', {
+                bunny("Instrument Sans", {
                     weights: [400, 500, 600],
                 }),
             ],
         }),
+        react(),
+        inertia({
+            ssr: "resources/js/inertia.tsx",
+        }),
         tailwindcss(),
     ],
     server: {
-        host: '0.0.0.0',
+        host: "0.0.0.0",
         port: 5173,
         strictPort: true,
         hmr: {
-            host: 'localhost',
+            host: "localhost",
             clientPort: 5173,
         },
         watch: {
             usePolling: true,
-            ignored: ['**/storage/framework/views/**'],
+            ignored: ["**/storage/framework/views/**"],
         },
     },
 });

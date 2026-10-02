@@ -53,7 +53,7 @@ class BudgetController extends Controller
      */
     public function show(Budget $budget)
     {
-        //
+        dd('show');
     }
 
     /**

@@ -31,10 +31,12 @@
                             <td class="py-6 px-10 flex justify-end gap-3">
                                 <x-budget-dropdown :budget="$budget" />
 
+                                @if (Route::has('budgets.create'))
                                 <x-confirm-delete :id="'delete-dialog-'.$budget->id"
                                     :title="'Eliminar presupuesto: '.$budget->name"
                                     :message="'Esta acción es irreversible, vas a eliminar: '.$budget->name.' con el valor de $'.$budget->amount"
                                     :action="route('budgets.destroy', $budget)" />
+                                @endif
                             </td>
                         </tr>
                         @empty
@@ -42,10 +44,12 @@
                             <td colspan="2" class="text-center py-10">
                                 <p class="text-xl text-neutral-600">
                                     No Hay Presupuestos.
+                                    @if (Route::has('budgets.create'))
                                     <a href="{{ route('budgets.create') }}"
                                         class="text-amber-500 font-semibold hover:underline">
                                         Comienza creando uno
                                     </a>
+                                    @endif
                                 </p>
                             </td>
                         </tr>

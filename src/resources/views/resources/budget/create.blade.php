@@ -22,6 +22,7 @@ Crear Presupuesto
 @endsection
 
 @section('dashboard-contents')
+@if (Route::has('budgets.store'))
 <form method="POST" action="{{ route('budgets.store') }}" class="mt-14 space-y-3 max-w-2xl mx-auto" novalidate>
     @csrf
 
@@ -30,4 +31,5 @@ Crear Presupuesto
     <input type="submit" value='Crear Presupuesto'
         class="bg-purple-950 hover:bg-purple-800 w-full p-3 rounded-lg text-white font-bold  text-xl cursor-pointer" />
 </form>
+@endif
 @endsection
