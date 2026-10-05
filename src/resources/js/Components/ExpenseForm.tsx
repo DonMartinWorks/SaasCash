@@ -48,6 +48,7 @@ export default function ExpenseForm() {
                         id='amount'
                         type="number"
                         min="0"
+                        step="0.01"
                         placeholder="Cantidad"
                         className="w-full border border-gray-300 p-3 rounded-lg"
                         value={data.amount}
