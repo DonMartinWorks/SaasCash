@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\enums\BudgetType;
 use App\Models\Budget;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

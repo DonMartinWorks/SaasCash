@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\enums\BudgetType;
+use App\Enums\BudgetType;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;

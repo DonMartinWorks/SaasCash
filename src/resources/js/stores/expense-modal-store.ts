@@ -1,13 +1,17 @@
 import { create } from 'zustand'
+import { Budget } from '@/types/budget'
 
 type ExpenseModalStore = {
     open: boolean,
+    budget: Budget | null,
     openCreateModal: () => void
-    closeModal: () => void
+    closeModal: () => void,
+    setBudget: (budget: Budget) => void
 }
 
-export const useExpenseModalStore = create<ExpenseModalStore>((set ) => ({
+export const useExpenseModalStore = create<ExpenseModalStore>((set) => ({
     open: false,
+    budget: null,
     openCreateModal: () => {
         set({
             open: true
@@ -16,6 +20,11 @@ export const useExpenseModalStore = create<ExpenseModalStore>((set ) => ({
     closeModal: () => {
         set({
             open: false
+        })
+    },
+    setBudget: (budget: Budget) => {
+        set({
+            budget
         })
     }
 }));

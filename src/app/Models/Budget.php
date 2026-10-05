@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\enums\BudgetType;
+use App\Enums\BudgetType;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
