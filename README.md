@@ -919,8 +919,20 @@ _Códigos genéricos que podrían ser útiles._
 
 ---
 
-1. Limpiar toda la cache de la app
+### _Limpiar toda la cache de la app_
 
 ```cmd
   docker compose exec app php artisan o:c
+```
+
+### _Crear o reiniciar la cache de rutas_
+
+```cmd
+  docker compose exec app php artisan route:cache
+```
+
+### _Generar o reiniciar archivos de tipos para Ziggy_
+
+```cmd
+  docker compose exec app php artisan ziggy:generate --types
 ```

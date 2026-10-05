@@ -50,6 +50,12 @@ declare module 'ziggy-js' {
             "binding": "id"
         }
     ],
+    "expenses.store": [
+        {
+            "name": "budget",
+            "required": true
+        }
+    ],
     "storage.local": [
         {
             "name": "path",

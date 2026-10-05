@@ -1,6 +1,8 @@
 import { useForm } from '@inertiajs/react'
 import { useExpenseModalStore } from '@/stores/expense-modal-store'
 import React from 'react'
+import Ziggy from '@/ziggy'
+import { route } from 'ziggy-js'
 
 export default function ExpenseForm() {
     // const { budget, categories } = useExpenseModalStore(state => ({
@@ -8,10 +10,10 @@ export default function ExpenseForm() {
     //     categories: state.categories
     // }));
 
-    const budget = useExpenseModalStore(state => state.budget)
-    const categories = useExpenseModalStore(state => state.categories)
+    const budget = useExpenseModalStore((state: any) => state.budget)
+    const categories = useExpenseModalStore((state: any) => state.categories)
 
-    const { data, setData } = useForm({
+    const { data, setData, post } = useForm({
         name: '',
         amount: '',
         category: '',
@@ -19,9 +21,15 @@ export default function ExpenseForm() {
 
     if (!budget) return null
 
+    const submit = (e: React.SubmitEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        post(route('expenses.store', budget.id))
+    }
+
     return (
         <div className='p-10 flex justify-center'>
-            <form className='flex flex-col space-y-3 w-full'>
+            <form onSubmit={submit} className='flex flex-col space-y-3 w-full'>
                 <div className='space-y-3'>
                     <label htmlFor="name" className='block text-xl font-bold'>Nombre Gasto</label>
                     <input
