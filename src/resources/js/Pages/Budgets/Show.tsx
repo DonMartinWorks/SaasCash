@@ -12,9 +12,9 @@ type Props = {
 
 export default function Show({ budget, categories }: Props) {
     const openCreateModal = useExpenseModalStore((state) => state.openCreateModal)
-    useExpenseModalStore.getState().setBudget(budget)
 
-    console.log(categories.values)
+    useExpenseModalStore.getState().setBudget(budget)
+    useExpenseModalStore.getState().setCategories(categories)
 
     return (
         <>

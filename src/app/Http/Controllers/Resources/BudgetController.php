@@ -59,7 +59,8 @@ class BudgetController extends Controller
         return Inertia::render('Budgets/Show', [
             'budget' => $budget,
             'categories' => collect(ExpenseCategory::cases())->map( fn ($category) => [
-                'value' => $category->value
+                'value' => $category->value,
+                'label'=>$category->label()
             ])
         ]);
     }

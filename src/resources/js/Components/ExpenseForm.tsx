@@ -1,8 +1,21 @@
+import { useForm } from '@inertiajs/react'
 import { useExpenseModalStore } from '@/stores/expense-modal-store'
 import React from 'react'
 
 export default function ExpenseForm() {
+    // const { budget, categories } = useExpenseModalStore(state => ({
+    //     budget: state.budget,
+    //     categories: state.categories
+    // }));
+
     const budget = useExpenseModalStore(state => state.budget)
+    const categories = useExpenseModalStore(state => state.categories)
+
+    const { data, setData } = useForm({
+        name: '',
+        amount: '',
+        category: '',
+    })
 
     if (!budget) return null
 
@@ -16,6 +29,8 @@ export default function ExpenseForm() {
                         type="text"
                         placeholder="Nombre del gasto"
                         className="w-full border border-gray-300 p-3 rounded-lg"
+                        value={data.name}
+                        onChange={e => setData('name', e.target.value)}
                     />
                 </div>
 
@@ -27,8 +42,26 @@ export default function ExpenseForm() {
                         min="0"
                         placeholder="Cantidad"
                         className="w-full border border-gray-300 p-3 rounded-lg"
+                        value={data.amount}
+                        onChange={e => setData('amount', e.target.value)}
                     />
                 </div>
+
+                {budget.type === 'general' && (
+                    <div className='space-y-3'>
+                        <label htmlFor="category" className='block text-xl font-bold'>Categoría Gasto</label>
+                        <select
+                            name="category"
+                            id="category"
+                            className='w-full border border-gray-300 p-3 rounded-lg'
+                            value={data.category}
+                            onChange={e => setData('category', e.target.value)}
+                        >
+                            <option value="" disabled>Selecciona Categoría</option>
+                            {categories.map(category => <option key={category.value} value={category.value}>{category.label}</option>)}
+                        </select>
+                    </div>
+                )}
 
                 <button type="submit" className="mt-5 bg-purple-950 hover:bg-purple-800 w-full p-3 rounded-lg text-white font-bold  text-xl cursor-pointer">
                     Agregar Gasto
