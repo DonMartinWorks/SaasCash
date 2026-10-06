@@ -3,7 +3,7 @@ import ExpenseModal from "@/Components/ExpenseModal"
 import { useExpenseModalStore } from "@/stores/expense-modal-store"
 import { Budget } from "@/types/budget"
 import { Category } from "@/types/category"
-import { Link, Head } from "@inertiajs/react"
+import { Head, Link, usePage } from "@inertiajs/react"
 
 type Props = {
     budget: Budget,
@@ -11,6 +11,8 @@ type Props = {
 }
 
 export default function Show({ budget, categories }: Props) {
+    const { flash } = usePage().props
+
     const openCreateModal = useExpenseModalStore((state) => state.openCreateModal)
 
     useExpenseModalStore.getState().setBudget(budget)

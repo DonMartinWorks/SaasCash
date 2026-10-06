@@ -3,17 +3,13 @@ import { useExpenseModalStore } from '@/stores/expense-modal-store'
 import React from 'react'
 import Ziggy from '@/ziggy'
 import { route } from 'ziggy-js'
+import InputError from './InputError'
 
 export default function ExpenseForm() {
-    // const { budget, categories } = useExpenseModalStore(state => ({
-    //     budget: state.budget,
-    //     categories: state.categories
-    // }));
-
     const budget = useExpenseModalStore((state: any) => state.budget)
     const categories = useExpenseModalStore((state: any) => state.categories)
 
-    const { data, setData, post } = useForm({
+    const { data, setData, post, errors } = useForm({
         name: '',
         amount: '',
         category: '',
@@ -40,6 +36,7 @@ export default function ExpenseForm() {
                         value={data.name}
                         onChange={e => setData('name', e.target.value)}
                     />
+                    {errors.name && <InputError>{errors.name}</InputError>}
                 </div>
 
                 <div className='space-y-3'>
@@ -54,6 +51,7 @@ export default function ExpenseForm() {
                         value={data.amount}
                         onChange={e => setData('amount', e.target.value)}
                     />
+                    {errors.amount && <InputError>{errors.amount}</InputError>}
                 </div>
 
                 {budget.type === 'general' && (
@@ -69,6 +67,7 @@ export default function ExpenseForm() {
                             <option value="" disabled>Selecciona Categoría</option>
                             {categories.map(category => <option key={category.value} value={category.value}>{category.label}</option>)}
                         </select>
+                        {errors.category && <InputError>{errors.category}</InputError>}
                     </div>
                 )}
 

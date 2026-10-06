@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Resources;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ExpenseRequest;
+use App\Models\Budget;
 use App\Models\Expense;
 use Illuminate\Http\Request;
 
@@ -12,9 +13,11 @@ class ExpenseController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ExpenseRequest $request)
+    public function store(ExpenseRequest $request, Budget $budget)
     {
-        //
+        $budget->expenses()->create($request->vaidated);
+
+        return redirect()->route('budgets.show', $budget)->with('success', 'Gasto creado exitosamente');
     }
 
     /**
