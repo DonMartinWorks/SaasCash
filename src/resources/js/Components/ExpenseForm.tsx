@@ -8,8 +8,9 @@ import InputError from './InputError'
 export default function ExpenseForm() {
     const budget = useExpenseModalStore((state: any) => state.budget)
     const categories = useExpenseModalStore((state: any) => state.categories)
+    const closeModal = useExpenseModalStore((state: any) => state.closeModal)
 
-    const { data, setData, post, errors } = useForm({
+    const { data, setData, post, errors, reset, processing } = useForm({
         name: '',
         amount: '',
         category: '',
@@ -20,7 +21,12 @@ export default function ExpenseForm() {
     const submit = (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        post(route('expenses.store', budget.id))
+        post(route('expenses.store', budget.id), {
+            onSuccess: () => {
+                reset()
+                closeModal()
+            }
+        })
     }
 
     return (
@@ -71,8 +77,8 @@ export default function ExpenseForm() {
                     </div>
                 )}
 
-                <button type="submit" className="mt-5 bg-purple-950 hover:bg-purple-800 w-full p-3 rounded-lg text-white font-bold  text-xl cursor-pointer">
-                    Agregar Gasto
+                <button disabled={processing} type="submit" className={`${processing ? 'bg-purple-600 opacity-60 cursor-not-allowed' : 'bg-purple-950 hover:bg-purple-800 cursor-pointer'} mt-5 w-full p-3 rounded-lg text-white font-bold  text-xl`}>
+                    {processing ? 'Guardando...' : 'Agregar Gasto'}
                 </button>
             </form>
         </div>

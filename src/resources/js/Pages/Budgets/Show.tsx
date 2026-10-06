@@ -3,7 +3,10 @@ import ExpenseModal from "@/Components/ExpenseModal"
 import { useExpenseModalStore } from "@/stores/expense-modal-store"
 import { Budget } from "@/types/budget"
 import { Category } from "@/types/category"
+import { useEffect } from 'react';
 import { Head, Link, usePage } from "@inertiajs/react"
+import { toast, ToastContainer } from 'react-toastify'
+import { SharedProps } from '@/types.d'
 
 type Props = {
     budget: Budget,
@@ -11,12 +14,18 @@ type Props = {
 }
 
 export default function Show({ budget, categories }: Props) {
-    const { flash } = usePage().props
+    const { flash } = usePage<SharedProps>().props;
 
     const openCreateModal = useExpenseModalStore((state) => state.openCreateModal)
 
     useExpenseModalStore.getState().setBudget(budget)
     useExpenseModalStore.getState().setCategories(categories)
+
+    useEffect(() => {
+        if (flash.success || flash.info || flash.status) {
+            toast.success(flash.success)
+        }
+    }, [flash])
 
     return (
         <>
@@ -57,6 +66,7 @@ export default function Show({ budget, categories }: Props) {
             </section>
 
             <ExpenseModal />
+            <ToastContainer />
         </>
     )
 }
