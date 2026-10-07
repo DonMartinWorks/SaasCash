@@ -16,22 +16,32 @@
                     <tbody class="divide-y divide-neutral-300">
                         @forelse($budgets as $budget)
                         <tr class="flex items-center justify-between bg-white hover:bg-neutral-100 transition-colors">
-                            <td class="pt-10 pb-5 px-10 relative">
+                            <td class="pt-10 pb-5 px-10 relative flex-1">
                                 <p class="absolute top-0 left-0 inline-block px-3 py-1 rounded-br-2xl text-sm font-medium w-40 text-white
                                     {{ $budget->isGeneral() ? 'bg-purple-950' : 'bg-orange-500' }}">
                                     {{ $budget->isGeneral() ? 'General' : 'Proyecto' }}
                                 </p>
-                                <a class="text-2xl font-bold text-neutral-500 block">
+
+                                @if (Route::has('budgets.show'))
+                                <a href="{{ route('budgets.show', $budget) }}"
+                                    class="text-2xl font-bold text-neutral-500 block hover:underline w-full">
                                     {{ $budget->name }}
                                 </a>
+                                @else
+                                <span class="text-2xl font-bold text-neutral-500 block">
+                                    {{ $budget->name }}
+                                </span>
+                                @endif
+
                                 <p class="text-lg text-neutral-500">
                                     &#x24;{{ $budget->amount }}
                                 </p>
                             </td>
+
                             <td class="py-6 px-10 flex justify-end gap-3">
                                 <x-budget-dropdown :budget="$budget" />
 
-                                @if (Route::has('budgets.create'))
+                                @if (Route::has('budgets.destroy'))
                                 <x-confirm-delete :id="'delete-dialog-'.$budget->id"
                                     :title="'Eliminar presupuesto: '.$budget->name"
                                     :message="'Esta acción es irreversible, vas a eliminar: '.$budget->name.' con el valor de $'.$budget->amount"
