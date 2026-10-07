@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import { Head, Link, usePage } from "@inertiajs/react"
 import { toast, ToastContainer } from 'react-toastify'
 import { SharedProps } from '@/types.d'
+import { formatDate } from "@/utils"
 
 type Props = {
     budget: Budget,
@@ -63,6 +64,52 @@ export default function Show({ budget, categories }: Props) {
 
                     <button onClick={openCreateModal} className='bg-purple-950 hover:bg-purple-800 hover:text-neutral-100 px-5 py-2 my-5 rounded-lg text-white font-bold text-xl cursor-pointer transition-colors'>Nuevo Gasto</button>
                 </div>
+
+                {budget.expenses.length ? (
+                    <div className="mt-8 flow-root ">
+                        <div className=" ring-1 ring-gray-300 rounded-lg ">
+                            <div className="inline-block min-w-full align-middle">
+                                <table className="relative min-w-full">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">
+                                                <span className="sr-only">Gastos</span>
+                                            </th>
+                                            <th scope="col">
+                                                <span className="sr-only">Acciones</span>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-gray-300 ">
+                                        {budget.expenses.map(expense => (
+                                        <tr key={expense.id} className='flex justify-between items-center '>
+                                            <td className={`pb-5 px-10 relative`}>
+                                                <p className={`absolute top-0 left-0 inline-block px-3 py-1 rounded-br-2xl text-sm font-medium w-40`}>
+                                                    {/* Categoría. */}
+                                                </p>
+                                                <p className="text-xl font-bold text-gray-500">{expense.name}</p>
+                                                <p className="text-lg text-gray-500">&#36;{expense.amount}</p>
+                                                <p className='text-sm text-gray-400' title='Agregado el'>{formatDate(expense.created_at)}</p>
+                                            </td>
+                                            <td className="py-6 px-10 flex justify-end gap-3">
+
+                                            </td>
+                                        </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                ) : (
+                    <p className="text-center text-xl mt-10 ">No Hay Gastos.
+                        <button
+                            type='button'
+                            onClick={openCreateModal}
+                            className="text-amber-500"
+                        >Comienza creando uno</button>
+                    </p>
+                )}
             </section>
 
             <ExpenseModal />

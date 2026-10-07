@@ -6,6 +6,7 @@ use App\Enums\ExpenseCategory;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BudgetRequest;
 use App\Models\Budget;
+use App\Models\Expense;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Attributes\Controllers\Authorize;
@@ -56,11 +57,15 @@ class BudgetController extends Controller
     #[Authorize('view', 'budget')]
     public function show(Budget $budget)
     {
+        $budget->load([
+            'expenses' => fn($query) => $query->orderBy('name', 'asc')->get()
+        ]);
+
         return Inertia::render('Budgets/Show', [
             'budget' => $budget,
-            'categories' => collect(ExpenseCategory::cases())->map( fn ($category) => [
+            'categories' => collect(ExpenseCategory::cases())->map(fn($category) => [
                 'value' => $category->value,
-                'label'=>$category->label()
+                'label' => $category->label()
             ])
         ]);
     }
