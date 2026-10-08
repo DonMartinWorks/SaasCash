@@ -28,6 +28,11 @@ permission:
 	docker compose exec app chown -R www-data:www-data storage bootstrap/cache
 	docker compose exec app chmod -R 775 storage bootstrap/cache
 
+refresh-db:
+	@echo "Haciendo las migraciones y seeders..."
+	docker compose exec app php artisan migrate:fresh --seed
+	@echo "Configuración completada con éxito"
+
 destroy:
 	@echo "¡ADVERTENCIA! Eliminando absolutamente todo el sistema Docker local..."
 	docker compose down -v --rmi all

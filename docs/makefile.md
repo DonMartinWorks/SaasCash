@@ -51,6 +51,11 @@ permission:
  docker compose exec app chown -R www-data:www-data storage bootstrap/cache
  docker compose exec app chmod -R 775 storage bootstrap/cache
 
+refresh-db:
+ @echo "Haciendo las migraciones y seeders..."
+ docker compose exec app php artisan migrate:fresh --seed
+ @echo "Configuración completada con éxito"
+
 destroy:
  @echo "¡ADVERTENCIA! Eliminando absolutamente todo el sistema Docker local..."
  docker compose down -v --rmi all
@@ -92,6 +97,14 @@ Para refrescar los permisos de escritura y propiedad de la carpeta `src/` y las 
 
 ```bash
 make permission
+```
+
+### Uso `refresh-db`
+
+Para refrescar la base de datos y ejecutar las migraciones y seeders:
+
+```bash
+make refresh-db
 ```
 
 ### Uso `destroy` (⚠️ Precaución)

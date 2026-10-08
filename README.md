@@ -45,6 +45,19 @@ Para detener los contenedores sin eliminar tus datos ni imágenes, ejecuta:
 make stop
 ```
 
+## 📄 Resumen: Configuración para `src/.env` de Laravel
+
+> Copia el bloque correspondiente al motor de base de datos que vayas a utilizar dentro del archivo c (`archivo .env`) de tu proyecto Laravel (`src/.env`):
+
+```.env
+DB_CONNECTION=pgsql
+DB_HOST=db_postgres
+DB_PORT=5432
+DB_DATABASE=laravel_db
+DB_USERNAME=laravel_user
+DB_PASSWORD=Secret_Password123!
+```
+
 ## Contacto
 
 Mi Cuenta GitHub: [https://github.com/DonMartinWorks](https://github.com/DonMartinWorks)

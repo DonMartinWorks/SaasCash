@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use Inertia\Inertia;
+use Inertia\Response;
 use Throwable;
 
 #[Middleware('auth')]
@@ -55,7 +56,7 @@ class BudgetController extends Controller
      * Display the specified resource.
      */
     #[Authorize('view', 'budget')]
-    public function show(Budget $budget)
+    public function show(Budget $budget): Response
     {
         $budget->load([
             'expenses' => fn($query) => $query->orderBy('name', 'asc')->get()

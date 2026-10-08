@@ -35,7 +35,7 @@ export default function Show({ budget, categories }: Props) {
             <section className="sm:flex sm:items-center mt-10">
                 <div className="sm:flex-auto">
                     <h1 className="font-bold text-4xl">Presupuesto: {budget.name}</h1>
-                    <p className="mt-2 text-xl text-gray-500">
+                    <p className="mt-2 text-xl text-neutral-500">
                         Maneja tu Presupuesto, añade, quita o edita tus gastos aquí.
                     </p>
                 </div>
@@ -58,7 +58,7 @@ export default function Show({ budget, categories }: Props) {
                 </div>
             </main>
 
-            <section className='p-10 lg:px-5 shadow-lg mt-10'>
+            <section className='p-10 lg:px-5 shadow-lg mt-10 bg-neutral-50'>
                 <div className='flex items-center justify-between'>
                     <h2 className='text-3xl font-bold'>Gastos</h2>
 
@@ -66,8 +66,8 @@ export default function Show({ budget, categories }: Props) {
                 </div>
 
                 {budget.expenses.length ? (
-                    <div className="mt-8 flow-root ">
-                        <div className=" ring-1 ring-gray-300 rounded-lg ">
+                    <div className="mt-8 flow-root bg-white">
+                        <div className=" ring-1 ring-neutral-300 rounded-lg ">
                             <div className="inline-block min-w-full align-middle">
                                 <table className="relative min-w-full">
                                     <thead>
@@ -80,21 +80,23 @@ export default function Show({ budget, categories }: Props) {
                                             </th>
                                         </tr>
                                     </thead>
-                                    <tbody className="divide-y divide-gray-300 ">
+                                    <tbody className="divide-y divide-neutral-300">
                                         {budget.expenses.map(expense => (
-                                        <tr key={expense.id} className='flex justify-between items-center '>
-                                            <td className={`pb-5 px-10 relative`}>
-                                                <p className={`absolute top-0 left-0 inline-block px-3 py-1 rounded-br-2xl text-sm font-medium w-40`}>
-                                                    {/* Categoría. */}
-                                                </p>
-                                                <p className="text-xl font-bold text-gray-500">{expense.name}</p>
-                                                <p className="text-lg text-gray-500">&#36;{expense.amount}</p>
-                                                <p className='text-sm text-gray-400' title='Agregado el'>{formatDate(expense.created_at)}</p>
-                                            </td>
-                                            <td className="py-6 px-10 flex justify-end gap-3">
+                                            <tr key={expense.id} className='flex justify-between items-center'>
+                                                <td className={`${budget.type === 'general' ? 'pt-10' : 'pt-5'} pb-5 px-10 relative`}>
+                                                    {budget.type === 'general' && (
+                                                        <p className={`absolute top-0 left-0 inline-block px-3 py-1 rounded-br-2xl text-sm font-medium w-40 ${expense.category_color}`}>
+                                                            {expense.category_label}
+                                                        </p>
+                                                    )}
+                                                    <p className="text-xl font-bold text-neutral-500">{expense.name}</p>
+                                                    <p className="text-lg text-neutral-500">&#36;{expense.amount}</p>
+                                                    <p className='text-sm text-neutral-400' title='Agregado el'>{formatDate(expense.created_at)}</p>
+                                                </td>
 
-                                            </td>
-                                        </tr>
+                                                <td className="py-6 px-10 flex justify-end gap-3">
+                                                </td>
+                                            </tr>
                                         ))}
                                     </tbody>
                                 </table>
