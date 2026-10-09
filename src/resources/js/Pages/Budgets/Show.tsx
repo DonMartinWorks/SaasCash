@@ -12,10 +12,11 @@ import ProgressBar from "@/Components/ProgressBar"
 
 type Props = {
     budget: Budget,
-    categories: Category[]
+    categories: Category[],
+    spent: string
 }
 
-export default function Show({ budget, categories }: Props) {
+export default function Show({ budget, categories, spent }: Props) {
     const { flash } = usePage<SharedProps>().props;
 
     const openCreateModal = useExpenseModalStore((state) => state.openCreateModal)
@@ -28,6 +29,9 @@ export default function Show({ budget, categories }: Props) {
             toast.success(flash.success)
         }
     }, [flash])
+
+    const percentageUsed = +((+spent / +budget.amount) * 100).toFixed(2)
+    const remaining = +budget.amount - +spent
 
     return (
         <>
@@ -52,12 +56,12 @@ export default function Show({ budget, categories }: Props) {
             </section>
 
             <main className="grid grid-cols-1 md:grid-cols-2 items-center gap-20 mt-10">
-                <ProgressBar />
+                <ProgressBar percentageUsed={percentageUsed} />
 
                 <div className="space-y-5">
                     <AmountDisplay label="Presupuesto" amount={+budget.amount} />
-                    <AmountDisplay label="Gastado" amount={0} />
-                    <AmountDisplay label="Restante" amount={0} />
+                    <AmountDisplay label="Gastado" amount={+spent} />
+                    <AmountDisplay label="Restante" amount={remaining} />
                 </div>
             </main>
 
