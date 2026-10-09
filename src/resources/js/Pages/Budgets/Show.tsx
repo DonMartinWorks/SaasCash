@@ -8,6 +8,7 @@ import { Head, Link, usePage } from "@inertiajs/react"
 import { toast, ToastContainer } from 'react-toastify'
 import { SharedProps } from '@/types.d'
 import { formatDate } from "@/utils"
+import ProgressBar from "@/Components/ProgressBar"
 
 type Props = {
     budget: Budget,
@@ -51,6 +52,8 @@ export default function Show({ budget, categories }: Props) {
             </section>
 
             <main className="grid grid-cols-1 md:grid-cols-2 items-center gap-20 mt-10">
+                <ProgressBar />
+
                 <div className="space-y-5">
                     <AmountDisplay label="Presupuesto" amount={+budget.amount} />
                     <AmountDisplay label="Gastado" amount={0} />
@@ -115,6 +118,7 @@ export default function Show({ budget, categories }: Props) {
             </section>
 
             <ExpenseModal />
+
             <ToastContainer />
         </>
     )
