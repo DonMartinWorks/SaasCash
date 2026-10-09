@@ -3,7 +3,7 @@ import ExpenseModal from "@/Components/ExpenseModal"
 import { useExpenseModalStore } from "@/stores/expense-modal-store"
 import { Budget } from "@/types/budget"
 import { Category } from "@/types/category"
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react'
 import { Head, Link, usePage } from "@inertiajs/react"
 import { toast, ToastContainer } from 'react-toastify'
 import { SharedProps } from '@/types.d'
@@ -17,21 +17,29 @@ type Props = {
 }
 
 export default function Show({ budget, categories, spent }: Props) {
-    const { flash } = usePage<SharedProps>().props;
-
-    const openCreateModal = useExpenseModalStore((state) => state.openCreateModal)
-
-    useExpenseModalStore.getState().setBudget(budget)
-    useExpenseModalStore.getState().setCategories(categories)
-
+    const { flash } = usePage().props
     useEffect(() => {
         if (flash.success || flash.info || flash.status) {
             toast.success(flash.success)
         }
     }, [flash])
 
-    const percentageUsed = +((+spent / +budget.amount) * 100).toFixed(2)
+    const openCreateModal = useExpenseModalStore((state) => state.openCreateModal)
+
+    useExpenseModalStore.getState().setBudget(budget)
+    useExpenseModalStore.getState().setCategories(categories)
+
     const remaining = +budget.amount - +spent
+    const percentageUsed = +((+spent / +budget.amount) * 100).toFixed(2)
+    const [progress, setProgress] = useState(0)
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            setProgress(percentageUsed)
+        }, 100)
+
+        return () => clearTimeout(timeout)
+    }, [percentageUsed])
 
     return (
         <>
@@ -55,8 +63,8 @@ export default function Show({ budget, categories, spent }: Props) {
                 </div>
             </section>
 
-            <main className="grid grid-cols-1 md:grid-cols-2 items-center gap-20 mt-10">
-                <ProgressBar percentageUsed={percentageUsed} />
+            <main className="grid grid-cols-1 md:grid-cols-2 items-center gap-20 mt-10 p-2 bg-white rounded-xl border shadow-xl border-neutral-100">
+                <ProgressBar percentageUsed={progress} />
 
                 <div className="space-y-5">
                     <AmountDisplay label="Presupuesto" amount={+budget.amount} />
@@ -65,7 +73,7 @@ export default function Show({ budget, categories, spent }: Props) {
                 </div>
             </main>
 
-            <section className='p-10 lg:px-5 shadow-lg mt-10 bg-neutral-50'>
+            <section className='p-10 lg:px-5 mt-10  bg-white rounded-xl border shadow-xl border-neutral-100'>
                 <div className='flex items-center justify-between'>
                     <h2 className='text-3xl font-bold'>Gastos</h2>
 
