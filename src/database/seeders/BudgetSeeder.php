@@ -16,14 +16,14 @@ class BudgetSeeder extends Seeder
         Budget::factory()->create([
             'user_id' => 1,
             'name' => 'Presupuesto ABC',
-            'amount' => 1000.00,
+            'amount' => 60000.00,
             'type' => 'general'
         ]);
 
         Budget::factory()->create([
             'user_id' => 1,
             'name' => 'Presupuesto XYZ',
-            'amount' => 1000.00,
+            'amount' => 10750.52,
             'type' => 'goal'
         ]);
     }
