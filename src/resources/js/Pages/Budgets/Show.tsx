@@ -9,6 +9,7 @@ import { toast, ToastContainer } from 'react-toastify'
 import { SharedProps } from '@/types.d'
 import { formatDate } from "@/utils"
 import ProgressBar from "@/Components/ProgressBar"
+import ExpenseDropdown from "@/Components/ExpenseDropdown"
 
 type Props = {
     budget: Budget,
@@ -95,6 +96,7 @@ export default function Show({ budget, categories, spent }: Props) {
                                             </th>
                                         </tr>
                                     </thead>
+
                                     <tbody className="divide-y divide-neutral-300">
                                         {budget.expenses.map(expense => (
                                             <tr key={expense.id} className='flex justify-between items-center'>
@@ -110,6 +112,7 @@ export default function Show({ budget, categories, spent }: Props) {
                                                 </td>
 
                                                 <td className="py-6 px-10 flex justify-end gap-3">
+                                                    <ExpenseDropdown expense={expense} />
                                                 </td>
                                             </tr>
                                         ))}
