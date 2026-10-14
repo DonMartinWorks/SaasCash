@@ -4,11 +4,16 @@ import React from 'react'
 import Ziggy from '@/ziggy'
 import { route } from 'ziggy-js'
 import InputError from './InputError'
+import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
+
 
 export default function ExpenseForm() {
-    const budget = useExpenseModalStore((state: any) => state.budget)
-    const categories = useExpenseModalStore((state: any) => state.categories)
-    const closeModal = useExpenseModalStore((state: any) => state.closeModal)
+    const budget = useExpenseModalStore(state => state.budget)
+    const expense = useExpenseModalStore(state => state.expense)
+    const categories = useExpenseModalStore(state => state.categories)
+    const closeModal = useExpenseModalStore(state => state.closeModal)
+
+    const isEditing = !!expense
 
     const { data, setData, post, errors, reset, processing } = useForm({
         name: '',
@@ -30,57 +35,63 @@ export default function ExpenseForm() {
     }
 
     return (
-        <div className='p-10 flex justify-center'>
-            <form onSubmit={submit} className='flex flex-col space-y-3 w-full'>
-                <div className='space-y-3'>
-                    <label htmlFor="name" className='block text-xl font-bold'>Nombre Gasto</label>
-                    <input
-                        id='name'
-                        type="text"
-                        placeholder="Nombre del gasto"
-                        className="w-full border border-gray-300 p-3 rounded-lg"
-                        value={data.name}
-                        onChange={e => setData('name', e.target.value)}
-                    />
-                    {errors.name && <InputError>{errors.name}</InputError>}
-                </div>
+        <>
+            <DialogTitle as="h3" className="text-4xl font-black mt-10 text-center">
+                {isEditing ? 'Editar' : 'Nuevo'} {' '} Gasto
+            </DialogTitle>
 
-                <div className='space-y-3'>
-                    <label htmlFor="amount" className='block text-xl font-bold'>Cantidad Gasto</label>
-                    <input
-                        id='amount'
-                        type="number"
-                        min="0"
-                        step="0.01"
-                        placeholder="Cantidad"
-                        className="w-full border border-gray-300 p-3 rounded-lg"
-                        value={data.amount}
-                        onChange={e => setData('amount', e.target.value)}
-                    />
-                    {errors.amount && <InputError>{errors.amount}</InputError>}
-                </div>
-
-                {budget.type === 'general' && (
+            <div className='p-10 flex justify-center'>
+                <form onSubmit={submit} className='flex flex-col space-y-3 w-full'>
                     <div className='space-y-3'>
-                        <label htmlFor="category" className='block text-xl font-bold'>Categoría Gasto</label>
-                        <select
-                            name="category"
-                            id="category"
-                            className='w-full border border-gray-300 p-3 rounded-lg'
-                            value={data.category}
-                            onChange={e => setData('category', e.target.value)}
-                        >
-                            <option value="" disabled>Selecciona Categoría</option>
-                            {categories.map(category => <option key={category.value} value={category.value}>{category.label}</option>)}
-                        </select>
-                        {errors.category && <InputError>{errors.category}</InputError>}
+                        <label htmlFor="name" className='block text-xl font-bold'>Nombre Gasto</label>
+                        <input
+                            id='name'
+                            type="text"
+                            placeholder="Nombre del gasto"
+                            className="w-full border border-gray-300 p-3 rounded-lg"
+                            value={data.name}
+                            onChange={e => setData('name', e.target.value)}
+                        />
+                        {errors.name && <InputError>{errors.name}</InputError>}
                     </div>
-                )}
 
-                <button disabled={processing} type="submit" className={`${processing ? 'bg-purple-600 opacity-60 cursor-not-allowed' : 'bg-purple-950 hover:bg-purple-800 cursor-pointer'} mt-5 w-full p-3 rounded-lg text-white font-bold  text-xl`}>
-                    {processing ? 'Guardando...' : 'Agregar Gasto'}
-                </button>
-            </form>
-        </div>
+                    <div className='space-y-3'>
+                        <label htmlFor="amount" className='block text-xl font-bold'>Cantidad Gasto</label>
+                        <input
+                            id='amount'
+                            type="number"
+                            min="0"
+                            step="0.01"
+                            placeholder="Cantidad"
+                            className="w-full border border-gray-300 p-3 rounded-lg"
+                            value={data.amount}
+                            onChange={e => setData('amount', e.target.value)}
+                        />
+                        {errors.amount && <InputError>{errors.amount}</InputError>}
+                    </div>
+
+                    {budget.type === 'general' && (
+                        <div className='space-y-3'>
+                            <label htmlFor="category" className='block text-xl font-bold'>Categoría Gasto</label>
+                            <select
+                                name="category"
+                                id="category"
+                                className='w-full border border-gray-300 p-3 rounded-lg'
+                                value={data.category}
+                                onChange={e => setData('category', e.target.value)}
+                            >
+                                <option value="" disabled>Selecciona Categoría</option>
+                                {categories.map(category => <option key={category.value} value={category.value}>{category.label}</option>)}
+                            </select>
+                            {errors.category && <InputError>{errors.category}</InputError>}
+                        </div>
+                    )}
+
+                    <button disabled={processing} type="submit" className={`${processing ? 'bg-purple-600 opacity-60 cursor-not-allowed' : 'bg-purple-950 hover:bg-purple-800 cursor-pointer'} mt-5 w-full p-3 rounded-lg text-white font-bold  text-xl`}>
+                        {processing ? 'Guardando...' : isEditing ? 'Agregar Gasto' : 'Actualizar Gasto'}
+                    </button>
+                </form>
+            </div>
+        </>
     )
 }
