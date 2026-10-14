@@ -16,9 +16,9 @@ export default function ExpenseForm() {
     const isEditing = !!expense
 
     const { data, setData, post, errors, reset, processing } = useForm({
-        name: '',
-        amount: '',
-        category: '',
+        name: expense?.name ?? '',
+        amount: expense?.amount ?? '',
+        category: expense?.category ?? '',
     })
 
     if (!budget) return null
