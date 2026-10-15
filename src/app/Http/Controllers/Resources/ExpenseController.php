@@ -23,9 +23,9 @@ class ExpenseController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Expense $expense)
+    public function update(Request $request, Budget $budget, Expense $expense)
     {
-        //
+        dd('mikado!');
     }
 
     /**

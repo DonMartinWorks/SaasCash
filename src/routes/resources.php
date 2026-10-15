@@ -17,5 +17,6 @@ Route::prefix('/dashboard')->group(function () {
         });
 
         // Expenses
-        Route::post('/budgets/{budget}/expenses', [ExpenseController::class, 'store'])->name('expenses.store');
+        Route::post('/{budget}/expenses', [ExpenseController::class, 'store'])->name('expenses.store');
+        Route::put('/{budget}/expenses/{expense}', [ExpenseController::class, 'update'])->name('expenses.update');
 });
