@@ -31,7 +31,8 @@ export default function ExpenseForm() {
                 onSuccess: () => {
                     reset()
                     closeModal()
-                }
+                },
+                preserveScroll: true
             });
             return
         }
@@ -40,7 +41,8 @@ export default function ExpenseForm() {
             onSuccess: () => {
                 reset()
                 closeModal()
-            }
+            },
+            preserveScroll: true
         })
     }
 
