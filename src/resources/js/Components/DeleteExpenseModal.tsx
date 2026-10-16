@@ -1,10 +1,30 @@
 import { Dialog, DialogPanel, DialogTitle, DialogBackdrop } from '@headlessui/react'
+import { router } from '@inertiajs/react'
 import { useDeleteExpenseStore } from '@/stores/expense-delete-store'
+import { useExpenseModalStore } from '@/stores/expense-modal-store'
 
 export default function DeleteExpenseModal() {
+    const budget = useExpenseModalStore(state => state.budget)
+
     const open = useDeleteExpenseStore(state => state.open)
     const expense = useDeleteExpenseStore(state => state.expense)
     const closeModal = useDeleteExpenseStore(state => state.closeModal)
+
+    if (!budget || !expense) return null
+
+    const handleDelete = () => {
+        router.delete(
+            route('expenses.destroy', {
+                budget: budget.id,
+                expense: expense.id
+            }), {
+            onSuccess: () => {
+                closeModal()
+            },
+            preserveScroll: true
+        }
+        )
+    }
 
     return (
         <Dialog open={open} onClose={closeModal} className="relative z-10">
@@ -35,7 +55,7 @@ export default function DeleteExpenseModal() {
                         <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
                             <button
                                 type="button"
-                                onClick={() => { }}
+                                onClick={handleDelete}
                                 className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-500 sm:ml-3 sm:w-auto"
                             >
                                 Eliminar
