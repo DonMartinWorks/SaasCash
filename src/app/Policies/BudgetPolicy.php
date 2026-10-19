@@ -32,6 +32,8 @@ class BudgetPolicy
         return $user->id === $budget->user_id ? Response::allow() : Response::deny('No tienes los permisos para eliminar este presupuesto.');
     }
 
+    // Stand-by
+
     /**
      * Determine whether the user can restore the model.
      */
