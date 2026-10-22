@@ -3,8 +3,7 @@
 use App\Models\Budget;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-
-
+use Illuminate\Support\Facades\Log;
 
 uses(RefreshDatabase::class);
 
@@ -80,5 +79,32 @@ it('does not allow other users to delete budgets', function () {
     $this->assertDatabaseHas('budgets', [
         'id' => $budget->id,
         'name' => 'El super Presupuesto'
+    ]);
+});
+
+it('handles exceptions gracefully and logs the error when deleting a budget fails', function () {
+    $user = User::factory()->create([
+        'email_verified_at' => now(),
+    ]);
+
+    $budget = Budget::factory()->for($user)->create();
+
+    Log::shouldReceive('error')
+        ->once()
+        ->withArgs(function ($message) {
+            return str_contains($message, 'Error al eliminar el presupuesto');
+        });
+
+    Budget::deleting(function () {
+        throw new Exception('Simulación de fallo crítico en base de datos');
+    });
+
+    $response = $this->actingAs($user)->delete(route('budgets.destroy', $budget));
+
+    $response->assertRedirect();
+    $response->assertSessionHas('error', 'Ocurrió un error al intentar eliminar el presupuesto. Inténtalo de nuevo más tarde.');
+
+    $this->assertDatabaseHas('budgets', [
+        'id' => $budget->id,
     ]);
 });

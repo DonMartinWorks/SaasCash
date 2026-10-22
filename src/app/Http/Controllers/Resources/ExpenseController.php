@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Attributes\Controllers\Authorize;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 #[Middleware('auth')]
 #[Middleware('verified')]
@@ -44,8 +46,22 @@ class ExpenseController extends Controller
     #[Authorize('delete', 'expense')]
     public function destroy(Budget $budget, Expense $expense)
     {
-        $expense->delete();
+        try {
+            $expense->delete();
 
-        return redirect()->route('budgets.show', $budget)->with('success', 'Gasto eliminado exitosamente');
+            return redirect()
+                ->route('budgets.show', $budget)
+                ->with('success', 'Gasto eliminado exitosamente.');
+        } catch (Throwable $e) {
+            Log::error('Error al eliminar el gasto: ' . $e->getMessage(), [
+                'budget_id'  => $budget->id,
+                'expense_id' => $expense->id,
+                'exception'  => $e
+            ]);
+
+            return redirect()
+                ->back()
+                ->with('error', 'Ocurrió un error al intentar eliminar el gasto. Inténtalo de nuevo más tarde.');
+        }
     }
 }
