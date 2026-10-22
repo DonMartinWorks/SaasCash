@@ -27,14 +27,22 @@ permission:
 	sudo chown -R $$USER:$$USER src/
 	docker compose exec app chown -R www-data:www-data storage bootstrap/cache
 	docker compose exec app chmod -R 775 storage bootstrap/cache
+	sudo truncate -s 0 src/storage/logs/laravel.log
 
 refresh-db:
 	@echo "Haciendo las migraciones y seeders..."
 	docker compose exec app php artisan migrate:fresh --seed
 	@echo "Configuración completada con éxito"
 
+log-clear:
+	@echo "Vaciando archivo laravel.log..."
+	sudo truncate -s 0 src/storage/logs/laravel.log
+	sudo chown $$USER:$$USER src/storage/logs/laravel.log
+	@echo "¡Log vaciado con éxito!"
+
 destroy:
 	@echo "¡ADVERTENCIA! Eliminando absolutamente todo el sistema Docker local..."
 	docker compose down -v --rmi all
 	docker system prune -a --volumes -f
 	docker builder prune -a -f
+	sudo truncate -s 0 src/storage/logs/laravel.log

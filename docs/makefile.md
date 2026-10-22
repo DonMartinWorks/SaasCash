@@ -50,17 +50,25 @@ permission:
  sudo chown -R $$USER:$$USER src/
  docker compose exec app chown -R www-data:www-data storage bootstrap/cache
  docker compose exec app chmod -R 775 storage bootstrap/cache
+ sudo truncate -s 0 src/storage/logs/laravel.log
 
 refresh-db:
  @echo "Haciendo las migraciones y seeders..."
  docker compose exec app php artisan migrate:fresh --seed
  @echo "Configuración completada con éxito"
 
+log-clear:
+ @echo "Vaciando archivo laravel.log..."
+ sudo truncate -s 0 src/storage/logs/laravel.log
+ sudo chown $$USER:$$USER src/storage/logs/laravel.log
+ @echo "¡Log vaciado con éxito!"
+
 destroy:
  @echo "¡ADVERTENCIA! Eliminando absolutamente todo el sistema Docker local..."
  docker compose down -v --rmi all
  docker system prune -a --volumes -f
  docker builder prune -a -f
+ sudo truncate -s 0 src/storage/logs/laravel.log
 ```
 
 ### Uso `setup`
@@ -105,6 +113,14 @@ Para refrescar la base de datos y ejecutar las migraciones y seeders:
 
 ```bash
 make refresh-db
+```
+
+### Uso `log-clear`
+
+Para vaciar el archivo de log de Laravel (`src/storage/logs/laravel.log`) y devolverle la propiedad a tu usuario local:
+
+```bash
+make log-clear
 ```
 
 ### Uso `destroy` (⚠️ Precaución)
