@@ -29,7 +29,7 @@ Editar Presupuesto&#58;&#160;{{ $budget->name }}
 
     <x-budget-form :budget="$budget" />
 
-    <input type="submit" value='Crear Presupuesto'
+    <input type="submit" value='Actualizar Presupuesto'
         class="bg-purple-950 hover:bg-purple-800 w-full p-3 rounded-lg text-white font-bold  text-xl cursor-pointer" />
 </form>
 @endif

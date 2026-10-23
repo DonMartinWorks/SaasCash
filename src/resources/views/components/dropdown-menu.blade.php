@@ -24,13 +24,15 @@
                 class="block px-4 py-2 text-sm text-gray-700 focus:bg-gray-100 focus:text-gray-900 focus:outline-hidden">Cambiar
                 Password</a>
 
+            @if (Route::has('logout'))
             <form action="{{ route('logout') }}" method="POST">
                 @csrf
                 <button type="submit"
-                    class="block w-full px-4 py-2 text-left text-sm text-gray-700 focus:bg-gray-100 focus:text-gray-900 focus:outline-hidden">
+                    class="block w-full px-4 py-2 text-left text-sm text-gray-700 focus:bg-gray-100 focus:text-gray-900 focus:outline-hidden hover:bg-rose-500 hover:text-white transition-all">
                     Cerrar Sesión
                 </button>
             </form>
+            @endif
         </div>
     </el-menu>
 </el-dropdown>
