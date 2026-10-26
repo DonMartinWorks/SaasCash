@@ -25,6 +25,7 @@ Listado de los usuarios **POR DEFECTO** `@laravel.com` es el nombre de la app: *
 - 🐧 [Desarrollo y Solución de Problemas en WSL2](docs/guia-wsl.md)
 - 🧪 [Suite de Pruebas con Pest PHP](docs/testing.md)
 - 🧹 [Mantenimiento y Limpieza](docs/mantenimiento-limpieza.md)
+- 💻 [Open Router AI Documentación](docs/ai-doc.md)
 - 📚 [Otros Comandos](docs/otros-comandos.md)
 
 ## Resumen makefile

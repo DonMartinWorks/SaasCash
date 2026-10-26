@@ -157,7 +157,7 @@ AWS_USE_PATH_STYLE_ENDPOINT=false
 
 VITE_APP_NAME="${APP_NAME}"
 
-
+OPENROUTER_API_KEY=YOUR_OPENROUTER_API_KEY
 ```
 
 ### 📄 Archivo: Configuración para `src/.env` de Laravel
