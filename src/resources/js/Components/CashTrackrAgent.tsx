@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { useChat } from '@ai-sdk/react'
+import { DefaultChatTransport } from 'ai'
+import { route } from 'ziggy-js'
 
 type Props = {
     budgetId: number
@@ -8,6 +10,12 @@ type Props = {
 export default function CashTrackrAgent({ budgetId }: Props) {
 
     const [input, setInput] = useState('');
+    const { sendMessage } = useChat({
+        transport: new DefaultChatTransport({
+            // api: `/dashboard/budgets/${budgetId}/chat`
+            api: route('budgets.chat', { budget: budgetId })
+        })
+    })
 
     return (
         <section className='p-10 lg:px-5 shadow-lg mt-10'>
@@ -15,7 +23,14 @@ export default function CashTrackrAgent({ budgetId }: Props) {
             <div className="space-y-3 mb-4 mt-8"></div>
 
             <form
-                onSubmit={() => { }}
+                onSubmit={(e) => {
+                    e.preventDefault();
+
+                    if (input.trim()) {
+                        sendMessage({ text: input })
+                        setInput('')
+                    }
+                }}
                 className="flex flex-col gap-2"
             >
                 <textarea

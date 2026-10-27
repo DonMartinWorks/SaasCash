@@ -2,6 +2,14 @@
 declare module 'ziggy-js' {
   interface RouteList {
     "home": [],
+    "dashboard": [],
+    "budgets.chat": [
+        {
+            "name": "budget",
+            "required": true,
+            "binding": "id"
+        }
+    ],
     "login": [],
     "login.store": [],
     "register": [],
@@ -19,7 +27,6 @@ declare module 'ziggy-js' {
             "required": true
         }
     ],
-    "dashboard": [],
     "budgets.create": [],
     "budgets.store": [],
     "budgets.show": [
@@ -53,6 +60,30 @@ declare module 'ziggy-js' {
     "expenses.store": [
         {
             "name": "budget",
+            "required": true,
+            "binding": "id"
+        }
+    ],
+    "expenses.update": [
+        {
+            "name": "budget",
+            "required": true,
+            "binding": "id"
+        },
+        {
+            "name": "expense",
+            "required": true,
+            "binding": "id"
+        }
+    ],
+    "expenses.destroy": [
+        {
+            "name": "budget",
+            "required": true,
+            "binding": "id"
+        },
+        {
+            "name": "expense",
             "required": true,
             "binding": "id"
         }
