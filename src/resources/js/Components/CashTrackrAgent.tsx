@@ -10,7 +10,7 @@ type Props = {
 export default function CashTrackrAgent({ budgetId }: Props) {
 
     const [input, setInput] = useState('');
-    const { sendMessage } = useChat({
+    const { sendMessage, messages } = useChat({
         transport: new DefaultChatTransport({
             // api: `/dashboard/budgets/${budgetId}/chat`
             api: route('budgets.chat', { budget: budgetId })
