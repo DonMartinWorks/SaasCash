@@ -17,6 +17,10 @@ export default function CashTrackrAgent({ budgetId }: Props) {
         })
     })
 
+    console.log('===========================')
+    console.log(messages)
+    console.log('===========================')
+
     return (
         <section className='p-10 lg:px-5 shadow-lg mt-10'>
             <h2 className="text-3xl font-bold">Pregunta sobre tu Presupuesto, añade gastos y más.</h2>

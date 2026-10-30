@@ -113,3 +113,28 @@ use App\Http\Controllers\AiChatController;
 
 Route::post('/ai/chat', [AiChatController::class, 'chat']);
 ```
+
+## Selección de Modelos Disponibles en OpenRouter
+
+> En la documentación oficial de OpenRouter, puedes encontrar una lista completa de modelos disponibles, sus capacidades y costos asociados. Algunos modelos populares incluyen:
+
+- **anthropic/claude-3.5-sonnet**: Modelo de lenguaje avanzado, ideal para tareas de conversación y generación de texto.
+- **google/gemma-4-26b-a4b-it**: Modelo de lenguaje de código abierto, adecuado para tareas de programación y generación de texto.
+- **nvidia/nemotron-3-ultra-550b-a55b**: Modelo de lenguaje de alto rendimiento, recomendado para aplicaciones que requieren respuestas rápidas y precisas.
+- **cohere/north-mini-code**: Modelo optimizado para generación de código y tareas relacionadas con programación.
+
+Para selecccionar un modelo y ultilizarlo en tu proyecto, simplemente reemplaza el valor del campo `model` en la solicitud HTTP a OpenRouter con el nombre del modelo deseado.
+
+Ubicación de la documentación oficial de OpenRouter: [https://docs.openrouter.ai](https://docs.openrouter.ai) en la pestaña **Models**.
+
+Por ejemplo, en tu controlador de Laravel, puedes cambiar el modelo de la siguiente manera:
+
+```php
+    return $agent->stream(
+        $prompt,
+        provider: 'openrouter',
+        model: 'google/gemma-4-26b-a4b-it:free',
+        // model: 'nvidia/nemotron-3-ultra-550b-a55b:free',
+        // model: 'cohere/north-mini-code:free'
+    )->usingVercelDataProtocol();
+```

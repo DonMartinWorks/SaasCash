@@ -38,6 +38,18 @@ class BudgetChatController extends Controller
         } else {
             $agent->budgetContext = "Este presupuesto es de tipo General llamado '{$budget->name}' con un monto total de \${$budget->amount}. Los gastos tienen nombre, monto y categoría.";
         }
+
+        return $agent->stream(
+            $prompt,
+            provider: 'openrouter',
+            // model: 'poolside/laguna-xs.2b:free',
+            // model: 'thinkingmachines/inkling:free',
+            // model: 'google/gemma-4-26b-a4b-it:free',
+            // model: 'xingchen-agi/xing4.0-29b-a4b:free',
+            model: 'nvidia/nemotron-3.5-super-vl:free', // <-- This is the model that works best for this use case
+            // model: 'nvidia/nemotron-3-ultra-550b-a55b:free',
+            // model: 'cohere/north-mini-code:free'
+        )->usingVercelDataProtocol();
     }
 
     /**
