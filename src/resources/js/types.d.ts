@@ -7,7 +7,12 @@ export interface SharedProps {
         warning?: string;
         info?: string;
         status?: string;
-    };
+    },
+    user: {
+        id: number
+        name: string
+        email: string
+    }
 }
 
 declare module '@inertiajs/core' {

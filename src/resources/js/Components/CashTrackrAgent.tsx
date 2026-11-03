@@ -5,9 +5,10 @@ import { route } from 'ziggy-js'
 
 type Props = {
     budgetId: number
+    name: string
 }
 
-export default function CashTrackrAgent({ budgetId }: Props) {
+export default function CashTrackrAgent({ budgetId, name }: Props) {
 
     const [input, setInput] = useState('');
     const { sendMessage, messages } = useChat({
@@ -17,14 +18,17 @@ export default function CashTrackrAgent({ budgetId }: Props) {
         })
     })
 
-    console.log(messages)
+    // console.log(messages)
 
     return (
         <section className='p-10 lg:px-5 shadow-lg mt-10'>
             <h2 className="text-3xl font-bold">Pregunta sobre tu Presupuesto, añade gastos y más.</h2>
             <div className="space-y-3 mb-4 mt-8">
                 {messages.map(m => (
-                    <div key={m.id}>
+                    <div key={m.id} className={`p-3 rounded-lg max-w-[80%] lg:max-w-[60%] ${m.role === 'user'
+                        ? 'bg-amber-500 text-white ml-auto'
+                        : 'bg-gray-50 mr-auto'
+                        }`}>
                         {m.parts.map((part, i) => {
                             if (part.type !== 'text') return null
 
@@ -34,7 +38,7 @@ export default function CashTrackrAgent({ budgetId }: Props) {
 
                             return (
                                 <p className='text-xl' key={i}>
-                                    <strong>{m.role === 'user' ? 'Usuario' : 'IA de respuesta'}</strong>{' '}
+                                    <strong>{m.role === 'user' ? name : 'IA de respuesta'}</strong>{' '}
                                     {text}
                                 </p>
                             )
