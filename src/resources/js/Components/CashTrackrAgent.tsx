@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useChat } from '@ai-sdk/react'
 import { DefaultChatTransport } from 'ai'
 import { route } from 'ziggy-js'
+import { toast } from 'react-toastify'
+import { router } from '@inertiajs/react'
 
 type Props = {
     budgetId: number
@@ -13,12 +15,20 @@ export default function CashTrackrAgent({ budgetId, name }: Props) {
     const [input, setInput] = useState('');
     const { sendMessage, messages } = useChat({
         transport: new DefaultChatTransport({
-            // api: `/dashboard/budgets/${budgetId}/chat`
             api: route('budgets.chat', { budget: budgetId })
-        })
-    })
+        }),
+        onFinish: ({ message }) => {
+            const expenseCreated = message.parts.some(part => {
+                // if (!parent.output) return null
+                // return part.output.startsWith('[EXPENSE_CREATED]')
+            })
 
-    // console.log(messages)
+            if (expenseCreated) {
+                toast.success('Gasto registrado correctamente')
+                router.reload({ only: ['expenses', 'budget'] })
+            }
+        }
+    })
 
     return (
         <section className='p-10 lg:px-5 shadow-lg mt-10'>
@@ -32,7 +42,9 @@ export default function CashTrackrAgent({ budgetId, name }: Props) {
                         {m.parts.map((part, i) => {
                             if (part.type !== 'text') return null
 
-                            const text = part.text.trim()
+                            const text = part.text
+                                .replace('[EXPENSE_CREATED]', '')
+                                .trim()
 
                             if (!text) return null
 
