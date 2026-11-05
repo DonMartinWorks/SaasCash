@@ -42,45 +42,7 @@ class BudgetChatController extends Controller
         return $agent->stream(
             $prompt,
             provider: 'openrouter',
-            // model: 'poolside/laguna-xs.2b:free',
-            // model: 'thinkingmachines/inkling:free',
-            // model: 'google/gemma-4-26b-a4b-it:free',
-            // model: 'xingchen-agi/xing4.0-29b-a4b:free',
-            model: 'nvidia/nemotron-3.5-super-vl:free', // <-- This is the model that works best for this use case
-            // model: 'nvidia/nemotron-3-ultra-550b-a55b:free',
-            // model: 'cohere/north-mini-code:free'
+            model: config('services.openrouter.model'),
         )->usingVercelDataProtocol();
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }

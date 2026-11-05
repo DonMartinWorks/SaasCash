@@ -129,12 +129,15 @@ Ubicación de la documentación oficial de OpenRouter: [https://docs.openrouter.
 
 Por ejemplo, en tu controlador de Laravel, puedes cambiar el modelo de la siguiente manera:
 
+```.env
+OPENROUTER_DEFAULT_MODEL=nvidia/nemotron-3.5-super-vl:free
+OPENROUTER_API_KEY=YOUR_OPENROUTER_API_KEY
+```
+
 ```php
     return $agent->stream(
-        $prompt,
-        provider: 'openrouter',
-        model: 'google/gemma-4-26b-a4b-it:free',
-        // model: 'nvidia/nemotron-3-ultra-550b-a55b:free',
-        // model: 'cohere/north-mini-code:free'
-    )->usingVercelDataProtocol();
+            $prompt,
+            provider: 'openrouter',
+            model: config('services.openrouter.model'),
+        )->usingVercelDataProtocol();
 ```

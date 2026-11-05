@@ -20,7 +20,13 @@ export default function CashTrackrAgent({ budgetId, name }: Props) {
         onFinish: ({ message }) => {
             const expenseCreated = message.parts.some(part => {
                 // if (!parent.output) return null
-                // return part.output.startsWith('[EXPENSE_CREATED]')
+                // return part.output.startsWith('[EXPENSE_CREATED]') // nvidia AI don't work with this
+
+                const isAddExpenseTool = part.type === 'tool-AddExpense'
+
+                const finished = 'state' in part && part.state === 'output-available'
+
+                return isAddExpenseTool && finished
             })
 
             if (expenseCreated) {
