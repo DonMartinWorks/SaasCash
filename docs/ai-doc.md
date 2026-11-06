@@ -138,6 +138,6 @@ OPENROUTER_API_KEY=YOUR_OPENROUTER_API_KEY
     return $agent->stream(
             $prompt,
             provider: 'openrouter',
-            model: config('services.openrouter.model'),
+            model: env('app.OPENROUTER_DEFAULT_MODEL', 'nvidia/nemotron-3.5-super-vl:free'),
         )->usingVercelDataProtocol();
 ```
