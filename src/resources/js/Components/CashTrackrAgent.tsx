@@ -56,9 +56,28 @@ export default function CashTrackrAgent({ budgetId, name }: Props) {
         ])
 
         try {
-            //
+            const csrfToken = document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]')?.content ?? ''
+            const formData = new FormData()
+
+            formData.append('image', file)
+
+            const response = await fetch(``, {
+                //
+            })
         } catch (error) {
-            //
+            console.error('Error al procesar el Ticket: ', error)
+
+            setMessages(prev => [
+                ...prev,
+                {
+                    id: crypto.randomUUID(),
+                    role: 'assistant' as const,
+                    content: 'Error al procesar el ticket. Intenta de Nuevo',
+                    parts: [{ type: 'text' as const, text: 'Error al procesar el ticket. Intenta de Nuevo' }]
+                }
+            ])
+        } finally {
+            if (fileInputRef.current) fileInputRef.current.value == ''
         }
     }
 
