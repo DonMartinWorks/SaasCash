@@ -4,6 +4,7 @@ import { DefaultChatTransport } from 'ai'
 import { route } from 'ziggy-js'
 import { toast } from 'react-toastify'
 import { router } from '@inertiajs/react'
+import { useRef } from 'react'
 
 type Props = {
     budgetId: number
@@ -13,7 +14,10 @@ type Props = {
 export default function CashTrackrAgent({ budgetId, name }: Props) {
 
     const [input, setInput] = useState('');
-    const { sendMessage, messages } = useChat({
+
+    const fileInputRef = useRef<HTMLInputElement>(null)
+
+    const { sendMessage, messages, setMessages } = useChat({
         transport: new DefaultChatTransport({
             api: route('budgets.chat', { budget: budgetId })
         }),
@@ -35,6 +39,28 @@ export default function CashTrackrAgent({ budgetId, name }: Props) {
             }
         }
     })
+
+    const handleimageUpload = async (e: RecordingState.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0]
+
+        if (!file) return
+
+        setMessages(prev => [
+            ...prev,
+            {
+                id: crypto.randomUUID(),
+                role: 'user' as const,
+                content: 'Ticket de Compra subido',
+                parts: [{ type: 'text' as const, text: 'Ticket de Compra subido' }]
+            }
+        ])
+
+        try {
+            //
+        } catch (error) {
+            //
+        }
+    }
 
     return (
         <section className='p-10 lg:px-5 shadow-lg mt-10'>
@@ -91,13 +117,15 @@ export default function CashTrackrAgent({ budgetId, name }: Props) {
                     </button>
                     <button
                         type="button"
-                        onClick={() => { }}
+                        onClick={() => fileInputRef.current?.click()}
                         className="mt-5 bg-amber-500 hover:bg-amber-500 p-3 rounded-lg text-white font-bold text-xl cursor-pointer disabled:opacity-20"
                     >
                         Subir Ticket
                     </button>
                 </div>
                 <input
+                    ref={fileInputRef}
+                    onChange={handleimageUpload}
                     type="file"
                     accept="image/*"
                     className="hidden"
