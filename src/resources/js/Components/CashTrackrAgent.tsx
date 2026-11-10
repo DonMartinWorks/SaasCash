@@ -61,8 +61,14 @@ export default function CashTrackrAgent({ budgetId, name }: Props) {
 
             formData.append('image', file)
 
-            const response = await fetch(``, {
-                //
+            const response = await fetch(route('budgets.scan-ticket', { budget: budgetId }), {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json'
+                },
+                credentials: 'same-origin',
+                body: formData
             })
         } catch (error) {
             console.error('Error al procesar el Ticket: ', error)
