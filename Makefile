@@ -16,6 +16,7 @@ setup:
 
 stop:
 	@echo "Deteniendo contenedores..."
+	docker compose exec app php artisan o:c
 	docker compose down
 
 clean:
@@ -42,6 +43,7 @@ log-clear:
 
 destroy:
 	@echo "¡ADVERTENCIA! Eliminando absolutamente todo el sistema Docker local..."
+	docker compose exec app php artisan o:c
 	docker compose down -v --rmi all
 	docker system prune -a --volumes -f
 	docker builder prune -a -f
