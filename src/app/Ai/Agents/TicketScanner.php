@@ -3,15 +3,16 @@
 namespace App\Ai\Agents;
 
 use App\Enums\ExpenseCategory;
-use Illuminate\JsonSchema\JsonSchema;
+use Illuminate\Contracts\JsonSchema\JsonSchema;
 use Laravel\Ai\Contracts\Agent;
+use Laravel\Ai\Contracts\HasStructuredOutput;
 use Laravel\Ai\Contracts\HasTools;
 use Laravel\Ai\Contracts\Tool;
 use Laravel\Ai\Promptable;
 use Laravel\Ai\Providers\Tools\ProviderTool;
 use Stringable;
 
-class TicketScanner implements Agent
+class TicketScanner implements Agent, HasStructuredOutput
 {
     use Promptable;
 
