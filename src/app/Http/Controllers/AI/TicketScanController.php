@@ -47,6 +47,9 @@ class TicketScanController extends Controller
         );
     }
 
+    /**
+     * Registers multiple expenses associated with a budget and generates a summary message.
+     */
     private function createExpenses(Budget $budget, string $store, string $category, array $items): array
     {
         $created = [];
