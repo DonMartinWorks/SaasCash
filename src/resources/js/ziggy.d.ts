@@ -10,6 +10,13 @@ declare module 'ziggy-js' {
             "binding": "id"
         }
     ],
+    "budgets.scan-ticket": [
+        {
+            "name": "budget",
+            "required": true,
+            "binding": "id"
+        }
+    ],
     "login": [],
     "login.store": [],
     "register": [],

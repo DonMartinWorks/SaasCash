@@ -5,6 +5,8 @@ namespace App\Http\Controllers\AI;
 use App\Ai\Agents\TicketScanner;
 use App\Http\Controllers\Controller;
 use App\Models\Budget;
+use App\Models\Expense;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Laravel\Ai\Files;
 
@@ -13,7 +15,7 @@ class TicketScanController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, Budget $budget)
+    public function store(Request $request, Budget $budget): JsonResponse
     {
         $request->validate([
             'image' => ['required', 'image', 'max:1240']
@@ -39,5 +41,35 @@ class TicketScanController extends Controller
                 'message' => 'No se pudieron extraer los productos del ticket'
             ]);
         }
+
+        return response()->json(
+            $this->createExpenses($budget, $response['store'], $response['category'], $response['items'])
+        );
+    }
+
+    private function createExpenses(Budget $budget, string $store, string $category, array $items): array
+    {
+        $created = [];
+
+        foreach ($items as $item) {
+            $expense = Expense::create([
+                'budget_id' => $budget->id,
+                'name' => $store . ' - ' . $item['name'],
+                'amount' => $item['amount'],
+                'category' => $budget->isGeneral() ? $category : null,
+            ]);
+
+            $cat = $expense->category ? $expense->category->label() : 'Sin categoría';
+            $created[] = "- {$expense->name}: \${$expense->amount} ({$cat})";
+        }
+
+        $total = array_sum(array_column($items, 'amount'));
+
+        return [
+            'success' => true,
+            'message' => "Se registraron " . count($created) . " gastos del ticket:\n" .
+                implode("\n", $created) .
+                "\nTotal: \${$total}",
+        ];
     }
 }

@@ -109,7 +109,7 @@ export default function Show({ budget, categories, spent }: Props) {
                                             <tr key={expense.id} className='flex justify-between items-center'>
                                                 <td className={`${budget.type === 'general' ? 'pt-10' : 'pt-5'} pb-5 px-10 relative`}>
                                                     {budget.type === 'general' && (
-                                                        <p className={`absolute top-0 left-0 inline-block px-3 py-1 rounded-br-2xl text-sm font-medium w-40 ${expense.category_color}`}>
+                                                        <p className={`absolute top-0 left-0 inline-block px-3 py-1 rounded-br-2xl text-sm text-center font-medium w-52 ${expense.category_color}`}>
                                                             {expense.category_label}
                                                         </p>
                                                     )}
