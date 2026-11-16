@@ -15,9 +15,11 @@ export default function CashTrackrAgent({ budgetId, name }: Props) {
 
     const [input, setInput] = useState('');
 
+    const [isScanning, setIsScanning] = useState(false)
+
     const fileInputRef = useRef<HTMLInputElement>(null)
 
-    const { sendMessage, messages, setMessages } = useChat({
+    const { sendMessage, messages, setMessages, status } = useChat({
         transport: new DefaultChatTransport({
             api: route('budgets.chat', { budget: budgetId })
         }),
@@ -44,6 +46,8 @@ export default function CashTrackrAgent({ budgetId, name }: Props) {
         const file = e.target.files?.[0]
 
         if (!file) return
+
+        setIsScanning(true)
 
         setMessages(prev => [
             ...prev,
@@ -100,9 +104,13 @@ export default function CashTrackrAgent({ budgetId, name }: Props) {
                 }
             ])
         } finally {
+            setIsScanning(false)
+
             if (fileInputRef.current) fileInputRef.current.value == ''
         }
     }
+
+    const isBusy = status === 'streaming' || status === 'submitted' || isScanning
 
     return (
         <section className='p-10 lg:px-5 shadow-lg mt-10'>
@@ -124,13 +132,21 @@ export default function CashTrackrAgent({ budgetId, name }: Props) {
 
                             return (
                                 <p className='text-xl' key={i}>
-                                    <strong>{m.role === 'user' ? name : 'IA de respuesta'}</strong>{' '}
+                                    <strong>{m.role === 'user' ? name : 'IA de respuesta'}</strong>{': '}
                                     {text}
                                 </p>
                             )
                         })}
                     </div>
                 ))}
+
+                {isScanning && (
+                    <div className='bg-gray-100 mr-auto max-w-[80%] lg:max-w-[60%] p-3 rounded-lg'>
+                        <p className='text-xl'>
+                            <strong>IA de respuesta</strong>: Escaneando ticket
+                        </p>
+                    </div>
+                )}
             </div>
 
             <form
@@ -149,20 +165,23 @@ export default function CashTrackrAgent({ budgetId, name }: Props) {
                     onChange={(e) => setInput(e.target.value)}
                     placeholder="Consulta dudas sobre tu Presupuesto o Agrega Gastos"
                     className="w-full border border-gray-300 p-3 rounded-lg text-xl"
+                    disabled={isBusy}
                 />
                 <div className="flex gap-2">
                     <button
                         type="submit"
                         className="flex-1 mt-5 bg-purple-950 hover:bg-purple-800 p-3 rounded-lg text-white font-bold text-xl cursor-pointer disabled:opacity-20"
+                        disabled={isBusy || !input.trim()}
                     >
-                        Consultar
+                        {status === 'streaming' ? 'Pensando' : 'Consultar'}
                     </button>
                     <button
                         type="button"
                         onClick={() => fileInputRef.current?.click()}
                         className="mt-5 bg-amber-500 hover:bg-amber-500 p-3 rounded-lg text-white font-bold text-xl cursor-pointer disabled:opacity-20"
+                        disabled={isBusy}
                     >
-                        Subir Ticket
+                        {isScanning ? 'Escaneando' : 'Subir Ticket'}
                     </button>
                 </div>
                 <input
