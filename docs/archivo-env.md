@@ -87,7 +87,9 @@ FILESYSTEM_DISK=local
 VITE_APP_NAME="${APP_NAME}"
 ```
 
-### `.env` (del proyecto Laravel)
+### 📄 Archivo: Configuración para `src/.env` de Laravel
+
+> Copia el bloque correspondiente al motor de base de datos que vayas a utilizar dentro del archivo c (`archivo .env`) de tu proyecto Laravel (`src/.env`):
 
 ```.env
 APP_NAME=Laravel
@@ -160,11 +162,16 @@ VITE_APP_NAME="${APP_NAME}"
 OPENROUTER_DEFAULT_MODEL=nvidia/nemotron-3.5-super-vl:free
 OPENROUTER_DEFAULT_MODEL_IMAGE=nvidia/llama-nemotron-embed-vl-1b-v2:free
 OPENROUTER_API_KEY=YOUR_OPENROUTER_API_KEY
+
+STRIPE_KEY=pk_test_blahblah
+STRIPE_SECRET=sk_test_blahblah
+STRIPE_WEBHOOK_SECRET=
+
+CASHIER_CURRENCY=
+CASHIER_CURRENCY_LOCALE=
+STRIPE_PRICE_AI_MONTHLY=
+STRIPE_PRICE_AI_YEARLY=
 ```
-
-### 📄 Archivo: Configuración para `src/.env` de Laravel
-
-> Copia el bloque correspondiente al motor de base de datos que vayas a utilizar dentro del archivo c (`archivo .env`) de tu proyecto Laravel (`src/.env`):
 
 #### `PostgreSQL`
 
