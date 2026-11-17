@@ -19,11 +19,12 @@ Listado de los usuarios **POR DEFECTO** `@laravel.com` es el nombre de la app: *
 ## 📚 Documentación y Guías
 
 - 🌐 [Arquitectura de Servicios y Visores de Base de Datos](docs/arquitectura-servicios.md)
-- 🌐 [Despliegue y Comandos de Inicialización](docs/instalacion-despliegue.md)
+- 💫 [Despliegue y Comandos de Inicialización](docs/instalacion-despliegue.md)
 - ⚙️ [Configuración de Variables de Entorno (`.env`)](docs/archivo-env.md)
 - 🛠️ [Instalación y Despliegue con Docker / Makefile](docs/makefile.md)
 - 🐧 [Desarrollo y Solución de Problemas en WSL2](docs/guia-wsl.md)
 - 🧪 [Suite de Pruebas con Pest PHP](docs/testing.md)
+- 💵 [Stripe + Cashier](docs/stripe.md)
 - 🧹 [Mantenimiento y Limpieza](docs/mantenimiento-limpieza.md)
 - 💻 [Open Router AI Documentación](docs/ai-doc.md)
 - 📚 [Otros Comandos](docs/otros-comandos.md)
