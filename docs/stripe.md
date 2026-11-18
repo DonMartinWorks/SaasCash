@@ -30,8 +30,8 @@ STRIPE_WEBHOOK_SECRET=
 
 CASHIER_CURRENCY=
 CASHIER_CURRENCY_LOCALE=
-STRIPE_PRICE_AI_MONTHLY=price_ID_precio
-STRIPE_PRICE_AI_YEARLY=
+STRIPE_PRICE_AI_MONTHLY=price_ID_precio_blahblah
+STRIPE_PRICE_AI_YEARLY=price_ID_precio_blahblah
 ```
 
 ---
@@ -57,6 +57,10 @@ STRIPE_PRICE_AI_YEARLY=
 _Para que las suscripciones y cobros funcionen correctamente en la aplicación, es necesario tener dados de alta los productos y sus respectivos precios recurrentes dentro de Stripe._
 
 ### I- Creación de Productos en el Panel
+
+> Importante: Antes de configurar las variables en el archivo `.env`, asegúrate de crear los productos y precios (mensual y anual) en el panel de Stripe. **(Nota: Para el plan anual, multiplica el precio mensual por 10 para ofrecer 2 meses gratis)**.
+
+- `https://dashboard.stripe.com/acct_ID/test/products?source=product_list&create=product` <- La url para crear productos en Stripe. **ID es del producto**
 
 1. Ingresa a la sección de Productos (Products) en el Stripe Dashboard.
 
