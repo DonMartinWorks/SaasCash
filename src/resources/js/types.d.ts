@@ -9,9 +9,13 @@ export interface SharedProps {
         status?: string;
     },
     user: {
-        id: number
-        name: string
-        email: string
+        user: {
+            id: number
+            name: string
+            email: string
+        },
+        subscribed: boolean,
+        plan: string | null
     }
 }
 

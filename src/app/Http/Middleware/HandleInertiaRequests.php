@@ -35,6 +35,9 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $user = $request->user();
+        $subscribed = $request->user()?->subscribed('default') ?? false;
+
         return [
             ...parent::share($request),
             'flash' => [
@@ -44,7 +47,14 @@ class HandleInertiaRequests extends Middleware
                 'info' => fn() => $request->session()->get('info'),
                 'status' => fn() => $request->session()->get('status')
             ],
-            'user' => $request->user()
+            'user' => [
+                'user' => $user,
+                'subscribed' => $subscribed,
+                'plan' => $subscribed ? ($user->subscribedToPrice(config('services.stripe.price_ai_yearly'), 'default')
+                    ? 'yearly'
+                    : 'monthly')
+                    : null
+            ]
         ];
     }
 }
