@@ -70,7 +70,11 @@ class BudgetController extends Controller
             'categories' => collect(ExpenseCategory::cases())->map(fn($category) => [
                 'value' => $category->value,
                 'label' => $category->label()
-            ])
+            ]),
+            'prices' => [
+                'monthly' => (int) config('services.stripe.price_view_monthly'),
+                'yearly' => (int) config('services.stripe.price_view_yearly'),
+            ],
         ]);
     }
 

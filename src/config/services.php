@@ -37,6 +37,8 @@ return [
 
     'stripe' => [
         'price_ai_monthly' => env('STRIPE_PRICE_AI_MONTHLY'),
-        'price_ai_yearly' => env('STRIPE_PRICE_AI_YEARLY')
+        'price_ai_yearly' => env('STRIPE_PRICE_AI_YEARLY'),
+        'price_view_monthly' => (int) env('STRIPE_PRICE_VIEW_MONTHLY', 5000),
+        'price_view_yearly' => (int) env('STRIPE_PRICE_VIEW_YEARLY', 48000),
     ]
 ];

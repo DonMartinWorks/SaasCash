@@ -30,6 +30,8 @@ STRIPE_WEBHOOK_SECRET=
 
 CASHIER_CURRENCY=clp
 CASHIER_CURRENCY_LOCALE=
+STRIPE_PRICE_VIEW_MONTHLY=5000
+STRIPE_PRICE_VIEW_YEARLY=48000
 STRIPE_PRICE_AI_MONTHLY=price_ID_precio_blahblah
 STRIPE_PRICE_AI_YEARLY=price_ID_precio_blahblah
 ```
@@ -41,6 +43,10 @@ STRIPE_PRICE_AI_YEARLY=price_ID_precio_blahblah
 `Stripe Secret`: Clave secreta de la API de Stripe para procesar pagos y peticiones seguras en el servidor.
 
 `Stripe Webhook Secret`: Token secreto para verificar y recibir notificaciones seguras de los eventos de Stripe.
+
+`Stripe Price at View Monthly`: Identificador del plan mensual configurado en Stripe para la suscripción de visualización.
+
+`Stripe Price at View Yearly`: Identificador del plan anual configurado en Stripe para la suscripción de visualización.
 
 `Cashier Currency`: Moneda predeterminada para las transacciones de Laravel Cashier.
 

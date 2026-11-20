@@ -18,10 +18,14 @@ type Props = {
     budget: Budget,
     categories: Category[],
     spent: string
+    prices: {
+        monthly: number;
+        yearly: number;
+    }
 }
 
 export default function Show({ budget, categories, spent }: Props) {
-    const { flash, user } = usePage().props
+    const { flash, user, prices } = usePage().props
 
     useEffect(() => {
         if (flash.success || flash.info || flash.status) {
@@ -144,7 +148,7 @@ export default function Show({ budget, categories, spent }: Props) {
                 <CashTrackrAgent budgetId={budget.id} name={user.name} />
             ) : (
                 <div className="mt-10">
-                    <PricingTable />
+                    <PricingTable prices={prices} />
                 </div>
             )}
 
