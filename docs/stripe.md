@@ -37,6 +37,12 @@ STRIPE_PRICE_AI_YEARLY=price_ID_precio_blahblah
 ```
 
 ---
+> `STRIPE_PRICE_VIEW_MONTHLY`, `STRIPE_PRICE_AI_MONTHLY`: **Los valores deben coincidir entre estos dos para que las suscripciones mensuales funcionen correctamente**
+---
+
+---
+> `STRIPE_PRICE_VIEW_YEARLY`, `STRIPE_PRICE_AI_YEARLY`: **Los valores deben coincidir entre estos dos para que las suscripciones anuales funcionen correctamente**
+---
 
 `Stripe Key`: Clave pública de la API de Stripe utilizada en el cliente. #Clave publicable
 
