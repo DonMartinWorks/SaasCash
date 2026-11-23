@@ -132,6 +132,4 @@ Una vez creados, copia los identificadores de precio (que comienzan con `price_.
 
 > Si aplicas el comando `docker compose exec stripe-cli stripe listen --forward-to localhost:3000/stripe/webhook` en tu terminal, podrás recibir eventos de Stripe en tiempo real y verificar que la configuración del webhook funciona correctamente, copiando el `STRIPE_WEBHOOK_SECRET` generado en el panel de Stripe.
 
-### Makefile: Configuración Automática del Webhook
-
-**make setup** ya va a ejecutar el comando de escucha del webhook automáticamente al final de la configuración, por lo que no es necesario ejecutarlo manualmente.
+La nueva configuración del container de Stripe CLI se encuentra en el archivo `.env` de la raíz del proyecto, con la variable `STRIPE_CLI_IMAGE_TAG=v1.23.0`.
