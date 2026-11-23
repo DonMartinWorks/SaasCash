@@ -26,10 +26,10 @@ Ve a la sección Desarrolladores y luego a API Keys.
 ```.env
 STRIPE_KEY=pk_test_blahblah
 STRIPE_SECRET=sk_test_blahblah
-STRIPE_WEBHOOK_SECRET=
+STRIPE_WEBHOOK_SECRET=whsec_blahblah
 
 CASHIER_CURRENCY=clp
-CASHIER_CURRENCY_LOCALE=
+CASHIER_CURRENCY_LOCALE=es_MX
 STRIPE_PRICE_VIEW_MONTHLY=5000
 STRIPE_PRICE_VIEW_YEARLY=48000
 STRIPE_PRICE_AI_MONTHLY=price_ID_precio_blahblah
@@ -129,3 +129,9 @@ Una vez creados, copia los identificadores de precio (que comienzan con `price_.
     - Crea o selecciona tu producto de suscripción y desplázate a la sección de Precios (Prices).
 
     - Copia el identificador único del precio (suele comenzar con `price_...`) correspondiente tanto al plan mensual como al anual.
+
+> Si aplicas el comando `docker compose exec stripe-cli stripe listen --forward-to localhost:3000/stripe/webhook` en tu terminal, podrás recibir eventos de Stripe en tiempo real y verificar que la configuración del webhook funciona correctamente, copiando el `STRIPE_WEBHOOK_SECRET` generado en el panel de Stripe.
+
+### Makefile: Configuración Automática del Webhook
+
+**make setup** ya va a ejecutar el comando de escucha del webhook automáticamente al final de la configuración, por lo que no es necesario ejecutarlo manualmente.
