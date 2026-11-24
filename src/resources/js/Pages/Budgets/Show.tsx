@@ -145,7 +145,7 @@ export default function Show({ budget, categories, spent }: Props) {
             </section>
 
             {user.subscribed ? (
-                <CashTrackrAgent budgetId={budget.id} name={user.name} />
+                <CashTrackrAgent budgetId={budget.id} name={user?.user?.name ?? 'Nombre Apellido'} />
             ) : (
                 <div className="mt-10">
                     <PricingTable prices={prices} />

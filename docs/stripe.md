@@ -62,6 +62,8 @@ STRIPE_PRICE_AI_YEARLY=price_ID_precio_blahblah
 
 `Stripe Price at AI Yearly` Identificador del precio o plan anual configurado en Stripe para la suscripción de IA.
 
+`Stripe Webhook URL` URL del webhook de Stripe para recibir notificaciones de eventos.
+
 ---
 
 ## 🛍 Catálogo de Productos y Planes
