@@ -133,3 +133,36 @@ Una vez creados, copia los identificadores de precio (que comienzan con `price_.
 > Si aplicas el comando `docker compose exec stripe-cli stripe listen --forward-to localhost:3000/stripe/webhook` en tu terminal, podrás recibir eventos de Stripe en tiempo real y verificar que la configuración del webhook funciona correctamente, copiando el `STRIPE_WEBHOOK_SECRET` generado en el panel de Stripe.
 
 La nueva configuración del container de Stripe CLI se encuentra en el archivo `.env` de la raíz del proyecto, con la variable `STRIPE_CLI_IMAGE_TAG=v1.23.0`.
+
+## Pasos para usar el servicio de Stripe CLI en el proyecto
+
+1. Asegúrate de tener el contenedor de Stripe CLI corriendo en tu entorno de desarrollo.
+2. Si te pide login, ejecuta `docker compose exec stripe-cli stripe login` y sigue las instrucciones para autenticarte.
+
+    ```cmd
+    docker compose exec stripe-cli stripe login
+    ```
+
+3. Una vez autenticado, puedes iniciar el listener de eventos de Stripe con el siguiente comando: **localhost:3000 debe coincidir con la URL de tu aplicación Laravel**
+
+    ```cmd
+    docker compose exec stripe-cli stripe listen --forward-to localhost:3000/stripe/webhook
+    ```
+
+4. Cuando se genere un evento en Stripe (por ejemplo, una suscripción creada o un pago exitoso), el listener capturará ese evento y lo reenviará a tu aplicación Laravel en la ruta especificada (`/stripe/webhook`).
+5. Para verificar que todo funciona correctamente, puedes revisar los logs del contenedor de tu aplicación Laravel para ver si los eventos están siendo recibidos y procesados adecuadamente.
+6. Recuerda que para que los eventos de Stripe sean procesados correctamente, debes tener configurado el controlador de webhook en tu aplicación Laravel y asegurarte de que la ruta `/stripe/webhook` esté correctamente definida y protegida según las mejores prácticas de seguridad.
+7. Si necesitas detener el listener, puedes hacerlo con `Ctrl + C` en la terminal donde se está ejecutando el comando de escucha.
+8. Para más detalles sobre cómo manejar los eventos de Stripe en Laravel, consulta la documentación oficial de Laravel Cashier y Stripe Webhooks.
+9. Asegúrate de mantener tus claves de API y secretos seguros y no los compartas públicamente.
+10. Si estás trabajando en un entorno de producción, asegúrate de cambiar las claves de API a las correspondientes del modo Live y de configurar correctamente los webhooks para recibir eventos en tu aplicación en producción.
+11. Copia y pega los identificadores de precios (`STRIPE_PRICE_AI_MONTHLY` y `STRIPE_PRICE_AI_YEARLY`) en tu archivo `.env (app laravel)` para que Laravel Cashier pueda utilizarlos al crear suscripciones.
+12. Verifica que los productos y precios estén correctamente configurados en el panel de Stripe antes de realizar pruebas de suscripción en tu aplicación.
+
+_Para copiar el `STRIPE_WEBHOOK_SECRET`, puedes encontrarlo en el container **(click en el nombre del servicio)** de docker con una line similar a la siguiente:_
+
+**whsec_hash** es el valor que debes copiar y pegar en tu archivo `.env` para la variable `STRIPE_WEBHOOK_SECRET`. **_hash** es un valor único generado por Stripe para tu webhook específico. Es único para tu aplicación.
+
+```bash
+Your webhook signing secret is whsec_hash (^C to quit)
+```

@@ -131,9 +131,10 @@ services:
   stripe-cli:
     image: stripe/stripe-cli:${STRIPE_CLI_IMAGE_TAG}
     container_name: ${CONTAINER_PREFIX:-app_laravel}_stripe
-    command: listen --all-snapshot --forward-to http://web:80/stripe/webhook
+    command: >
+      listen --all-snapshot --forward-to ${APP_URL:-http://web:80/stripe/webhook}
     environment:
-      - STRIPE_API_KEY=${STRIPE_SECRET}
+      STRIPE_API_KEY: ${STRIPE_SECRET}
     depends_on:
       - web
     networks:
