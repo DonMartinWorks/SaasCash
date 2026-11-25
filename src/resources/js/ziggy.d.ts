@@ -110,6 +110,7 @@ declare module 'ziggy-js' {
     ],
     "billing.success": [],
     "billing.cancel": [],
+    "plans": [],
     "storage.local": [
         {
             "name": "path",

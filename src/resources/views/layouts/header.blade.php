@@ -25,6 +25,8 @@
             @endif
 
             @else
+            <x-subscription-badge />
+
             <p class="text-white text-xl font-semibold underline underline-offset-4 decoration-amber-500 decoration-2">
                 {{ Auth::user()->name }}
             </p>
