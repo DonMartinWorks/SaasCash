@@ -20,6 +20,13 @@
             <a href=""
                 class="block px-4 py-2 text-sm text-gray-700 focus:bg-gray-100 focus:text-gray-900 focus:outline-hidden">Ajustes</a>
 
+            @if (Route::has('subscription.manage') && auth()->user()->subscribed())
+            <a href="{{ Route('subscription.manage') }}"
+                class="block px-4 py-2 text-sm text-gray-700 focus:bg-gray-100 focus:text-gray-900 focus:outline-hidden">
+                Mi Suscripción
+            </a>
+            @endif
+
             <a href=""
                 class="block px-4 py-2 text-sm text-gray-700 focus:bg-gray-100 focus:text-gray-900 focus:outline-hidden">Cambiar
                 Password</a>
