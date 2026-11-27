@@ -17,3 +17,7 @@
 @utility input-error {
     @apply text-xs font-semibold text-red-600 mt-1;
 }
+
+@utility base {
+    @apply p-4 bg-white rounded-xl border shadow-xl border-neutral-100;
+}

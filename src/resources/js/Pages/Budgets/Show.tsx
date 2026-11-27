@@ -76,7 +76,7 @@ export default function Show({ budget, categories, spent }: Props) {
                 </div>
             </section>
 
-            <main className="grid grid-cols-1 md:grid-cols-2 items-center gap-20 mt-10 p-2 bg-white rounded-xl border shadow-xl border-neutral-100">
+            <main className="grid grid-cols-1 md:grid-cols-2 items-center gap-20 mt-10 base">
                 <ProgressBar percentageUsed={progress} />
 
                 <div className="space-y-5">
@@ -86,7 +86,7 @@ export default function Show({ budget, categories, spent }: Props) {
                 </div>
             </main>
 
-            <section className='p-10 lg:px-5 mt-10  bg-white rounded-xl border shadow-xl border-neutral-100'>
+            <section className='p-10 lg:px-5 mt-10 base'>
                 <div className='flex items-center justify-between'>
                     <h2 className='text-3xl font-bold'>Gastos</h2>
 
